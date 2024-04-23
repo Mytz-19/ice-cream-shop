@@ -65,10 +65,11 @@ async def delete_employee(id: str):
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@router.put("/employee/{id}", summary="Update employee details", status_code=204)
+@router.put("/employee/{id}", summary="New employee details", status_code=204)
 async def put_employee(id: str, updated_details: Dict[str, Any]):
     try:
-        employee_updated = DBManager().update_by_id(collection_name=Collection.EMPLOYEES, document_id=id, updated_data=updated_details)
+        employee_updated = DBManager().update_by_id(collection_name=Collection.EMPLOYEES,
+                                                    document_id=id, updated_data=updated_details)
         if employee_updated:
             return Response(status_code=204)
         else:
