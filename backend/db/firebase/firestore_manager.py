@@ -6,7 +6,7 @@ from firebase_admin import firestore
 
 from app.models.enums.collections import Collection
 
-CREDENTIALS_PATH = "C:/Users/yhm1kor/experiments/ice-cream-shop/backend/db/firebase/credentials.json"
+CREDENTIALS_PATH = "db/firebase/credentials.json"
 
 
 class FirestoreManager:
@@ -16,9 +16,8 @@ class FirestoreManager:
         if not firebase_admin._apps:
             firebase_admin.initialize_app(cred)
         self._db = firestore.client()
-    
-    
-    def get_collection(self, collection: Collection) -> Union[None, firestore.CollectionReference]:
+
+    def get_collection(self, collection: Collection):
         """
         Retrieve a reference to a Firestore collection.
         
@@ -32,7 +31,6 @@ class FirestoreManager:
             return self._db.collection(collection)
         except(Exception) as err:
             raise ConnectionError("Failed to retrieve collection") from err
-
 
     @staticmethod
     def close_connection():
