@@ -1,0 +1,26 @@
+@import './../../styles.scss';
+
+
+.header {
+    background-color: $blue-100;
+}
+
+.logo-icon {
+    width: 150px; 
+    height: 150px;
+    background-image: url('../../assets/images/ice-cream-logo.png'); 
+    background-size: cover; 
+}
+
+.header-section {
+    padding: 10px;
+
+    .header-content {
+        flex: 1;
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        color: $white;
+        font-size: 40px;
+        font-family: cursive;
+    }
+}
