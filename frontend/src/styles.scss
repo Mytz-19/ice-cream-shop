@@ -50,6 +50,11 @@ $white: #ffffff;
   align-items: center;
 }
 
+.flex-row-wrap {
+  @extend .flex-row;
+  flex-wrap: wrap;
+}
+
 .flex-row-center {
   @extend .flex-row;
   justify-content: center;

@@ -1,0 +1,17 @@
+@import './../../styles.scss';
+
+.section {
+    height: 60px;
+    padding: 25px;
+    background-color: $blue-10;
+
+    &-header{
+        font-size: 20px;
+        font-family: cursive;
+    }
+}
+
+.section-content {
+    flex-wrap: wrap;
+    gap: 30px;
+}
