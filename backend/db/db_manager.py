@@ -9,7 +9,7 @@ from app.models.enums.collections import Collection
 
 class DBManager:
 
-    firestore_manager: FirestoreManager = None
+    firestore_manager = None
 
     def __init__(self):
         if DBManager.firestore_manager is None:

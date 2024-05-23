@@ -33,3 +33,5 @@ app.add_middleware(
 app.include_router(employee_router, tags=["Employee"])
 # Include the products router
 app.include_router(product_router, tags=["Product"])
+# Include the orders router
+app.include_router(order_router, tags=["Order"])
