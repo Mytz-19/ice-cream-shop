@@ -12,12 +12,6 @@ COPY ./ /usr/local/app/
 # Install all the dependencies
 RUN npm install
 
-# Create a file and add it to /app
-RUN echo "This is a test file" > /app/testfile.txt
-
-# List the contents of /app to verify the file creation
-RUN ls -al /app
-
 # Generate the build of the application
 RUN npm run build --configuration=production
 
@@ -28,9 +22,9 @@ RUN npm run build --configuration=production
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/aibse-ui /usr/share/nginx/html
+COPY --from=build /usr/local/app/dist/frontend /usr/share/nginx/html
 # Copying custom-nginx config
-COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+# COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
-EXPOSE 8080
+# Expose port 4200
+EXPOSE 4200
