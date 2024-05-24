@@ -7,5 +7,6 @@ export const routes: Routes = [
     { path: '', redirectTo: '/employees', pathMatch: 'full'},
     { path: 'employees', component: EmployeeComponent },
     { path: 'items', component: ItemsComponent },
-    { path: 'sub-header', component: SubHeaderComponent }
+    { path: 'sub-header', component: SubHeaderComponent },
+    { path: '**', redirectTo: '/employees', pathMatch: 'full' },
 ];

@@ -1,0 +1,5 @@
+@if(currentRoute === employees) {
+    <button mat-flat-button color="primary" 
+        [disabled]="!createOrderService.isNewOrder"
+        (click)="navigateTo('items')">New Order</button>
+}

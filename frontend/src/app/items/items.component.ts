@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+
 import { SubHeaderComponent } from '../sub-header/sub-header.component';
+import { CounterInputComponent } from './counter-input/counter-input.component';
+import { Products } from '../models';
+import { RestService } from '../services/rest.service';
+
+
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
-import { RestService } from '../services/rest.service';
-import { Products } from '../models';
-
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [SubHeaderComponent, MatCardModule, MatButtonModule, MatRadioModule],
+  imports: [SubHeaderComponent, CounterInputComponent, MatCardModule, MatButtonModule, MatRadioModule],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss'
 })

@@ -14,4 +14,23 @@
 .section-content {
     flex-wrap: wrap;
     gap: 30px;
+    margin: 30px;
+}
+
+.align-content {
+    text-align: center;
+}
+
+.img-icon {
+    width: 250px; 
+    height: 200px;
+}
+
+.highlight:hover {
+    box-shadow: 10px 10px 20px #24242454;
+}
+
+.selected {
+    border: 2px solid $blue-100;
+    box-shadow: 10px 10px 20px $blue-100;
 }

@@ -8,7 +8,8 @@ import { Employee, Products } from '../models';
 })
 export class RestService {
 
-  private apiPath = "http://127.0.0.1:8080";
+  // private apiPath = "http://127.0.0.1:8080";
+  private apiPath = "https://ice-cream-shop-yhr5.onrender.com";
 
   constructor(protected http: HttpClient) { }
 

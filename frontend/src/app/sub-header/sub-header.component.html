@@ -1,6 +1,8 @@
 <div class="section flex-row-space-between">
     <span class="section-header">{{headerContent}}</span>
     @if(currentRoute === employees) {
-        <button mat-flat-button color="primary" (click)="navigateTo('items')">New Order</button>
+        <button mat-flat-button color="primary" 
+            [disabled]="!createOrderService.isNewOrder"
+            (click)="navigateTo('items')">New Order</button>
     }
 </div>

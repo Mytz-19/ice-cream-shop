@@ -1,21 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { Component } from '@angular/core';
+import { Routes } from '../models';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CreateOrderService } from '../services/create-order.service';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Routes } from '../models';
-import { CreateOrderService } from '../services/create-order.service';
-
 @Component({
-  selector: 'app-sub-header',
+  selector: 'app-actions',
   standalone: true,
   imports: [MatButtonModule],
-  templateUrl: './sub-header.component.html',
-  styleUrl: './sub-header.component.scss'
+  templateUrl: './actions.component.html',
+  styleUrl: './actions.component.scss'
 })
-export class SubHeaderComponent implements OnInit {
-
-  @Input() headerContent: string = '';
+export class ActionsComponent {
   readonly employees = Routes.EMPLOYEES;
   protected currentRoute = '';
 
@@ -34,7 +30,6 @@ export class SubHeaderComponent implements OnInit {
   }
 
   navigateTo(route: string): void {
-    // this.route = route;
     this.router.navigate([route]);
   }
 }

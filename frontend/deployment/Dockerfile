@@ -7,7 +7,7 @@ FROM node:14 as build
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
-# COPY package*.json ./
+COPY package*.json ./
 
 # Install all the dependencies
 RUN npm install
@@ -15,14 +15,15 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Generate the build of the application
-RUN npm run build
-
 # Create a file and add it to /app
 RUN echo "This is a test file" > /app/testfile.txt
 
 # List the contents of /app to verify the file creation
 RUN ls -al /app
+
+# Generate the build of the application
+RUN npm run build
+
 
 # Stage 2: Serve app with Nginx server
 
