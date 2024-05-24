@@ -10,7 +10,7 @@ WORKDIR /usr/local/app
 COPY ./ /usr/local/app/
 
 # Create a file and add it to /app
-RUN echo "This is a test file" > /app/testfile.txt
+RUN echo "This is a test file" > /usr/local/app/testfile.txt
 
 # List the contents of /app to verify the file creation
 RUN ls -al /usr/local/app
