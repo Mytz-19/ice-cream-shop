@@ -1,19 +1,16 @@
-# Stage 1: Compile and Build Angular codebase
+# Stage 1: Compile and Build angular codebase
 
-# Use official Node image as the base image
-FROM node:14 as build
+# Use official node image as the base image
+FROM node:18.17.0 as build
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/local/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Add the source code to app
+COPY ./ /usr/local/app/
 
 # Install all the dependencies
 RUN npm install
-
-# Copy the rest of the application code to the working directory
-COPY . .
 
 # Create a file and add it to /app
 RUN echo "This is a test file" > /app/testfile.txt
@@ -22,25 +19,18 @@ RUN echo "This is a test file" > /app/testfile.txt
 RUN ls -al /app
 
 # Generate the build of the application
-RUN npm run build
+RUN npm run build --configuration=production
 
 
-# Stage 2: Serve app with Nginx server
+# Stage 2: Based on Nginx, to have only the compiled app, ready for production with Nginx
 
-# Use official Nginx image as the base image
-FROM nginx:1.21-alpine
+# Use official nginx image as the base image
+FROM nginx:latest
 
-# Copy the build output to replace the default Nginx contents
-COPY --from=build /app/dist/sample-angular-app /usr/share/nginx/html
-
-# Copy the test file to the nginx html directory for verification
-COPY --from=build /app/testfile.txt /usr/share/nginx/html/testfile.txt
-
-# List the contents of /usr/share/nginx/html to verify the copy
-RUN ls -al /usr/share/nginx/html
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /usr/local/app/dist/aibse-ui /usr/share/nginx/html
+# Copying custom-nginx config
+COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
-EXPOSE 80
-
-# Optional: copy custom Nginx configuration file if you have one
-# COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 8080
