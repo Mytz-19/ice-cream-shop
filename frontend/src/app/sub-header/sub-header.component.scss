@@ -1,7 +1,9 @@
 @import './../../styles.scss';
 
 .section {
-    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     padding: 25px;
     background-color: $blue-10;
 

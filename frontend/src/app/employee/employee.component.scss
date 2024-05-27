@@ -1,22 +1,15 @@
 @import './../../styles.scss';
 
 .section {
-    height: 60px;
-    padding: 25px;
-    background-color: $blue-10;
-
-    &-header{
-        font-size: 20px;
-        font-family: cursive;
-    }
+    height: calc(100% - 12.2em);
+    display: block;
+    overflow-y: scroll;
 }
 
 .section-content {
     flex-wrap: wrap;
     gap: 30px;
     margin: 30px;
-    overflow: scroll;
-    max-height: 36em;
 }
 
 .align-content {

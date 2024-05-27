@@ -1,4 +1,17 @@
+.section {
+    height: calc(100% - 12.2em);
+    display: block;
+    overflow-y: scroll;
+}
+
+.section-content {
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 30px;
+}
+
 .item-card {
     height: 250px;
     width: 250px;
+    padding: 2em;
 }
