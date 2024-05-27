@@ -24,5 +24,8 @@ FROM nginx:latest
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /usr/local/app/dist/frontend/browser/ /usr/share/nginx/html
 
-# Expose port 80
+# Copying custom-nginx config
+COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 4200
 EXPOSE 4200
