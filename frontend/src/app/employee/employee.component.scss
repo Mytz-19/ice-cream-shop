@@ -15,6 +15,8 @@
     flex-wrap: wrap;
     gap: 30px;
     margin: 30px;
+    overflow: scroll;
+    max-height: 36em;
 }
 
 .align-content {
