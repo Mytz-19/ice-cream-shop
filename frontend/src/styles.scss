@@ -40,6 +40,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 $blue-10: #eef7fe;
+$blue-30: #dbe5f4;
 $blue-100: #1e3a66;
 $white: #ffffff;
 
@@ -62,5 +63,16 @@ $white: #ffffff;
 
 .flex-row-space-between {
   @extend .flex-row;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-column-space-between {
+  @extend .flex-column;
   justify-content: space-between;
 }

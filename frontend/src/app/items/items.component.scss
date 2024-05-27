@@ -1,3 +1,5 @@
+@import './../../styles.scss';
+
 .section {
     height: calc(100% - 12.2em);
     display: block;
@@ -12,6 +14,19 @@
 
 .item-card {
     height: 250px;
-    width: 250px;
+    width: 450px;
     padding: 2em;
+    background-color: $blue-30;
+
+    // required for flex
+    gap: 20px;
+}
+
+.img-icon {
+    width: 100px; 
+    height: 100px;
+}
+
+.align-text {
+    line-height: 2;
 }

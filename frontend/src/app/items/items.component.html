@@ -2,25 +2,32 @@
     <app-sub-header headerContent="Add Items"></app-sub-header>
     <div [style.margin]="'2em'" class="flex-row-wrap section-content">
         @for (product of products; track product) {
-            <mat-card class="item-card">
-                <div>
-                    {{product.name}}
-                </div>
-                <div>
-                    Rs. {{product.price}}/piece
-                </div>
-                <div>
-                    Quantity
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="piece">Piece</mat-radio-button>
-                        <mat-radio-button value="box">Box</mat-radio-button>
-                    </mat-radio-group>
+            <mat-card class="flex-column-space-between item-card">
+                <div class="flex-row-space-between">
                     <div>
-                        <app-counter-input></app-counter-input>
+                        <img src="../../assets/images/ice-cream.png" alt="Ice-Cream" class="img-icon"> 
+                    </div>
+                    <div>
+                        <div class="align-text" [style.font-weight]="600">
+                            {{product.name}}
+                        </div>
+                        <div class="align-text" [style.font-weight]="200">
+                            Rs. {{product.price}}/piece
+                        </div>
+                        <div>
+                            Quantity
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button value="piece">Piece</mat-radio-button>
+                                <mat-radio-button value="box">Box</mat-radio-button>
+                            </mat-radio-group>
+                            <div>
+                                <app-counter-input></app-counter-input>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <button mat-flat-button color="primary">Add to Cart</button>
+                <div [style.width]="'100%'">
+                    <button mat-flat-button color="primary" [style.width]="'100%'">Add to Cart</button>
                 </div>
             </mat-card>
         }
