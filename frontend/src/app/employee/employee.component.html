@@ -1,6 +1,6 @@
 <div class="section">
       <app-sub-header headerContent="Select Employees"></app-sub-header>
-      <div class="section-content flex-row">
+      <div class="section-content flex-row-align-center">
                   @for (employee of employees; track employee.id){
                         <mat-card class="{{createOrderService.employeeId === employee.id && isToggled ? 'selected' : 'highlight'}}" 
                               [style.cursor]="'pointer'"

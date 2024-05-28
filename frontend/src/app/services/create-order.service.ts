@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ProductsWithQty } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class CreateOrderService {
 
   private _isNewOrder = false;
   private _employeeId = '';
+  private _addedItem!: ProductsWithQty;
 
   public set isNewOrder(val: boolean) {
     this._isNewOrder = val;
@@ -26,4 +28,11 @@ export class CreateOrderService {
     return this._employeeId;
   }
   
+  public set addedItem(val: ProductsWithQty) {
+    this._addedItem = val;
+  }
+
+  public get addedItem(): ProductsWithQty {
+    return this._addedItem;
+  }
 }

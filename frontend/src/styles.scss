@@ -44,35 +44,47 @@ $blue-30: #dbe5f4;
 $blue-100: #1e3a66;
 $white: #ffffff;
 
-
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.flex-row-align-center {
+  @extend .flex-row;
   align-items: center;
 }
 
-.flex-row-wrap {
-  @extend .flex-row;
+.flex-row-align-center-wrap {
+  @extend .flex-row-align-center;
   flex-wrap: wrap;
 }
 
-.flex-row-center {
-  @extend .flex-row;
+.flex-row-align-center-justify-center {
+  @extend .flex-row-align-center;
   justify-content: center;
 }
 
-.flex-row-space-between {
-  @extend .flex-row;
+.flex-row-align-center-justify-space-between {
+  @extend .flex-row-align-center;
   justify-content: space-between;
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.flex-column-align-center {
+  @extend .flex-column;
   align-items: center;
 }
 
-.flex-column-space-between {
-  @extend .flex-column;
+.flex-column-align-center-justify-space-between {
+  @extend .flex-column-align-center;
   justify-content: space-between;
+}
+
+.flex-column-align-start {
+  @extend .flex-column;
+  align-items: flex-start;
 }

@@ -13,13 +13,14 @@ import { MatIconModule } from '@angular/material/icon';
 export class CounterInputComponent {
 
   @Input()
-  counterValue = 0;
+  counterValue = 1;
 
   increment() {
     this.counterValue++;
   }
 
   decrement() {
-    this.counterValue--;
+    if(this.counterValue<=1) return;
+    else this.counterValue--;
   }
 }

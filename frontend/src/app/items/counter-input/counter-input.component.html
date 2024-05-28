@@ -1,7 +1,5 @@
-<button mat-mini-fab color="accent" (click)="increment()">
-    <mat-icon>add</mat-icon>
-</button>
-{{counterValue}}
-<button mat-mini-fab color="accent" (click)="decrement()">
-    <mat-icon>remove</mat-icon>
-</button>
+<div class="flex-row-align-center">
+    <mat-icon aria-label="Add" fontIcon="add_circle" (click)="increment()"></mat-icon>
+    {{counterValue}}
+    <mat-icon aria-label="Remove" fontIcon="remove_circle" (click)="decrement()"></mat-icon>
+</div>

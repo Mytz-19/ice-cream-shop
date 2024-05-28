@@ -1,33 +1,43 @@
 <div class="section">
     <app-sub-header headerContent="Add Items"></app-sub-header>
-    <div [style.margin]="'2em'" class="flex-row-wrap section-content">
+    <div [style.margin]="'2em'" class="flex-row-align-center-wrap section-content">
         @for (product of products; track product) {
-            <mat-card class="flex-column-space-between item-card">
-                <div class="flex-row-space-between">
+            <mat-card class="flex-column-align-center-justify-space-between item-card">
+                <div class="flex-row-align-center-justify-space-between">
                     <div>
                         <img src="../../assets/images/ice-cream.png" alt="Ice-Cream" class="img-icon"> 
                     </div>
-                    <div>
-                        <div class="align-text" [style.font-weight]="600">
+                    <div class="flex-column-align-start content-gap">
+                        <div class="margin" [style.font-weight]="600">
                             {{product.name}}
                         </div>
-                        <div class="align-text" [style.font-weight]="200">
+                        <div class="margin" [style.font-weight]="200">
                             Rs. {{product.price}}/piece
                         </div>
                         <div>
-                            Quantity
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="piece">Piece</mat-radio-button>
-                                <mat-radio-button value="box">Box</mat-radio-button>
-                            </mat-radio-group>
-                            <div>
+                            <label>
+                                <input [name]="product.id" type="radio" [value]="selectedQty" (change)="product.selectedQty = ItemQty.PIECE" [checked]="product.selectedQty === ItemQty.PIECE"/>
+                                Piece
+                            </label>                             
+                            <label>
+                                <input [name]="product.id" type="radio" (change)="product.selectedQty = ItemQty.BOX"/>
+                                Box
+                            </label>                         
+                        </div>
+                        <div>
+                            @if (product.selectedQty === ItemQty.PIECE) {
                                 <app-counter-input></app-counter-input>
-                            </div>
+                            }  
                         </div>
                     </div>
                 </div>
                 <div [style.width]="'100%'">
-                    <button mat-flat-button color="primary" [style.width]="'100%'">Add to Cart</button>
+                    @if (!isProductAdded(product)) {
+                        <button mat-flat-button class="yellow-btn" (click)="saveItems(product)">Add to Cart</button>
+                    }
+                    @else {
+                        <button mat-flat-button class="green-btn">Added to Cart</button>
+                    }
                 </div>
             </mat-card>
         }

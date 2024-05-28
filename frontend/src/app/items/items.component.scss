@@ -27,6 +27,20 @@
     height: 100px;
 }
 
-.align-text {
-    line-height: 2;
+.margin {
+    margin-left: 5px;
+}
+
+.content-gap {
+    gap: 10px;
+}
+
+.yellow-btn {
+    width: inherit;
+    background-color: #dcc477 !important;
+}
+
+.green-btn {
+    width: inherit;
+    background-color: #67b69a !important;
 }
