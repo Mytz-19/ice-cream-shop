@@ -12,15 +12,17 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class CounterInputComponent {
 
-  @Input()
-  counterValue = 1;
+  @Input() counterValue = 1;
+  @Input() isDisabled: boolean = false;
 
   increment() {
-    this.counterValue++;
+    if(!this.isDisabled) this.counterValue++;
   }
 
   decrement() {
-    if(this.counterValue<=1) return;
-    else this.counterValue--;
+    if(!this.isDisabled) {
+      if(this.counterValue<=1) return;
+      else this.counterValue--;
+    }
   }
 }

@@ -16,27 +16,30 @@
                         </div>
                         <div>
                             <label>
-                                <input [name]="product.id" type="radio" [value]="selectedQty" (change)="product.selectedQty = ItemQty.PIECE" [checked]="product.selectedQty === ItemQty.PIECE"/>
+                                <input [name]="product.id" type="radio" [value]="selectedQty" (change)="product.selectedQty = ItemQty.PIECE" [checked]="product.selectedQty === ItemQty.PIECE" [disabled]="product.disable"/>
                                 Piece
                             </label>                             
                             <label>
-                                <input [name]="product.id" type="radio" (change)="product.selectedQty = ItemQty.BOX"/>
+                                <input [name]="product.id" type="radio" (change)="product.selectedQty = ItemQty.BOX" [disabled]="product.disable"/>
                                 Box
                             </label>                         
                         </div>
                         <div>
                             @if (product.selectedQty === ItemQty.PIECE) {
-                                <app-counter-input></app-counter-input>
+                                <app-counter-input [isDisabled]="product.disable"></app-counter-input>
                             }  
                         </div>
                     </div>
                 </div>
                 <div [style.width]="'100%'">
                     @if (!isProductAdded(product)) {
-                        <button mat-flat-button class="yellow-btn" (click)="saveItems(product)">Add to Cart</button>
+                        <button mat-flat-button class="yellow-btn" (click)="saveItems(product)">Add</button>
                     }
                     @else {
-                        <button mat-flat-button class="green-btn">Added to Cart</button>
+                        <div class="flex-row-align-center" [style.gap]="'5px'">
+                            <button mat-flat-button class="green-btn">Added to Cart</button>
+                            <button mat-flat-button class="gray-btn" (click)="enableItems(product)">Remove</button>
+                        </div>
                     }
                 </div>
             </mat-card>

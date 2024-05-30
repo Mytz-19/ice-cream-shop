@@ -32,7 +32,7 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
     this.restService.getProducts()
     .pipe(
-      map(products => products.map(product => ({...product,selectedQty: ItemQty.PIECE}))
+      map(products => products.map(product => ({...product, selectedQty: ItemQty.PIECE, disable: false}))
     ))
     .subscribe({
       next: (products) => {
@@ -45,17 +45,23 @@ export class ItemsComponent implements OnInit {
   saveItems(product: ProductsWithQty): void {
     const existingProduct = this.isProductAdded(product);
     if (!existingProduct) {
+      product.disable = true;
       this.selectedProducts.push(product);
-    } else {
-      // If the product exists, update its selectedQty
-      existingProduct.selectedQty = product.selectedQty;
     }
-    console.log(this.selectedProducts)
-    // this.createOrderService.addedItem = product;
+    this.createOrderService.selectedProducts = this.selectedProducts;
   }
 
   isProductAdded(product: ProductsWithQty): ProductsWithQty|undefined {
     return this.selectedProducts.find(p => p.id === product.id);
+  }
+
+  enableItems(product: ProductsWithQty): void {
+    const existingProduct = this.isProductAdded(product);
+    if (existingProduct) {
+      product.disable = false;
+    }
+    this.selectedProducts = this.selectedProducts.filter(item => item.id !== product.id);
+    this.createOrderService.selectedProducts = this.selectedProducts;
   }
 }
 

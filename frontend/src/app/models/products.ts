@@ -8,4 +8,5 @@ export interface Products {
 
 export interface ProductsWithQty extends Products{
     selectedQty: ItemQty;
+    disable: boolean;
 }

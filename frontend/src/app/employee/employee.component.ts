@@ -30,10 +30,7 @@ export class EmployeeComponent implements OnInit{
   ngOnInit(): void {
     this.restService.getEmployee()
     .subscribe({
-      next: (employees) => {
-        console.log(employees);
-        this.employees = employees;
-      }, 
+      next: (employees) => this.employees = employees, 
       error: (err) => console.log(err)
     });
   }

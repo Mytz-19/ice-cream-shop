@@ -39,10 +39,13 @@ $frontend-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+$white: #ffffff;
 $blue-10: #eef7fe;
 $blue-30: #dbe5f4;
 $blue-100: #1e3a66;
-$white: #ffffff;
+$yellow-10: #dcc477;
+$green-10: #67b69a;
+$gray-10: #afa8a8;
 
 .flex-row {
   display: flex;

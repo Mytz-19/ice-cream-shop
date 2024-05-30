@@ -37,10 +37,15 @@
 
 .yellow-btn {
     width: inherit;
-    background-color: #dcc477 !important;
+    background-color: $yellow-10 !important;
 }
 
 .green-btn {
-    width: inherit;
-    background-color: #67b69a !important;
+    width: 70%;
+    background-color: $green-10 !important;
+}
+
+.gray-btn {
+    width: 30%;
+    background-color: $gray-10 !important;
 }

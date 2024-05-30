@@ -1,0 +1,4 @@
+.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* This will make the entire div and its children non-clickable */
+  }

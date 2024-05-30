@@ -10,7 +10,7 @@ export class CreateOrderService {
 
   private _isNewOrder = false;
   private _employeeId = '';
-  private _addedItem!: ProductsWithQty;
+  private _selectedProducts: ProductsWithQty[] =[];
 
   public set isNewOrder(val: boolean) {
     this._isNewOrder = val;
@@ -28,11 +28,11 @@ export class CreateOrderService {
     return this._employeeId;
   }
   
-  public set addedItem(val: ProductsWithQty) {
-    this._addedItem = val;
+  public set selectedProducts(selectedItems: ProductsWithQty[]) {
+    this._selectedProducts = selectedItems;
   }
 
-  public get addedItem(): ProductsWithQty {
-    return this._addedItem;
+  public get selectedProducts(): ProductsWithQty[] {
+    return this._selectedProducts;
   }
 }
