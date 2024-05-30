@@ -17,6 +17,7 @@ export class SubHeaderComponent implements OnInit {
 
   @Input() headerContent: string = '';
   readonly employees = Routes.EMPLOYEES;
+  readonly items = Routes.ITEMS;
   protected currentRoute = '';
 
   constructor(

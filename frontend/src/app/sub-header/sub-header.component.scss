@@ -16,3 +16,12 @@
     flex-wrap: wrap;
     gap: 30px;
 }
+
+.blue-btn {
+    background-color: $blue-100 !important;
+    color: $white !important;
+
+    &:disabled {
+        background-color: $gray-10 !important;
+    }
+}

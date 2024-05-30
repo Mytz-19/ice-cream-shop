@@ -1,8 +1,13 @@
 <div class="section flex-row-align-center-justify-space-between">
     <span class="section-header">{{headerContent}}</span>
     @if(currentRoute === employees) {
-        <button mat-flat-button color="primary" 
+        <button mat-flat-button class="blue-btn"
             [disabled]="!createOrderService.isNewOrder"
             (click)="navigateTo('items')">New Order</button>
+    }
+    @if(currentRoute === items) {
+        <button mat-flat-button class="blue-btn"
+            [disabled]="createOrderService.selectedProducts.length<1"
+            (click)="navigateTo('receipt')">Cart</button>
     }
 </div>
