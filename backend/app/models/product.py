@@ -1,12 +1,17 @@
 from pydantic import BaseModel
 
+class PricePerQty(BaseModel):
+    qty: int
+    price: float
 
 class Product(BaseModel):
     id: str
     name: str
-    price: float
+    piece: PricePerQty
+    box: PricePerQty
 
 
 class ProductDetails(BaseModel):
     name: str
-    price: float
+    piece: PricePerQty
+    box: PricePerQty
