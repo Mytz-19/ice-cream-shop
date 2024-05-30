@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { Routes } from '../models';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+
 import { CreateOrderService } from '../services/create-order.service';
+import { ProductsWithQty, Routes } from '../models';
+
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -12,24 +13,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './actions.component.scss'
 })
 export class ActionsComponent {
-  readonly employees = Routes.EMPLOYEES;
-  protected currentRoute = '';
 
-  constructor(
-    public createOrderService: CreateOrderService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  @Input()
+  public selectedProducts: ProductsWithQty[] = [];
 
-  ngOnInit() {
-    // Subscribe to the NavigationEnd event
-    this.activatedRoute.url.subscribe(([url]) => {
-      const { path, parameters } = url;
-      this.currentRoute = path;
-    });
-  }
+  // calculateProductsPrice(): number {
 
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
-  }
+  // }
 }

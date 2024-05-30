@@ -1,19 +1,20 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
-import {MatButtonModule} from '@angular/material/button';
-import { RestService } from '../services/rest.service';
-import { Employee } from '../models';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+
 import { ItemsComponent } from '../items/items.component';
 import { SubHeaderComponent } from '../sub-header/sub-header.component';
-import { MatCardModule } from '@angular/material/card';
+import { RestService } from '../services/rest.service';
 import { CreateOrderService } from '../services/create-order.service';
-import { ActionsComponent } from '../actions/actions.component';
+import { Employee } from '../models';
+
 
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [ItemsComponent, SubHeaderComponent, ActionsComponent, MatButtonModule, MatCardModule, HttpClientModule],
+  imports: [ItemsComponent, SubHeaderComponent, MatButtonModule, MatCardModule, HttpClientModule],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss'
 })

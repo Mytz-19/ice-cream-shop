@@ -1,5 +1,7 @@
-@if(currentRoute === employees) {
-    <button mat-flat-button color="primary" 
-        [disabled]="!createOrderService.isNewOrder"
-        (click)="navigateTo('items')">New Order</button>
+@if(selectedProducts.length > 0) {
+    <div class="spacer"></div>
+    <div class="flex-row-align-center-justify-space-between actions-bar">
+        <div>Total Price</div>
+        <div>100</div>
+    </div>
 }

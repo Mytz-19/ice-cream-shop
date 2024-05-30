@@ -1,0 +1,19 @@
+@import './../../styles.scss';
+
+.actions-bar {
+    background-color: $blue-100;
+    color: $white;
+    font-size: 20px;
+    padding: 20px;
+
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.spacer {
+    height: 60px; /* Add space to enable scrolling */
+}

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs';
 
+import { ActionsComponent } from '../actions/actions.component';
 import { SubHeaderComponent } from '../sub-header/sub-header.component';
 import { CounterInputComponent } from './counter-input/counter-input.component';
-import { ItemQty, ProductsWithQty } from '../models';
 import { RestService } from '../services/rest.service';
+import { CreateOrderService } from '../services/create-order.service';
+import { ItemQty, ProductsWithQty } from '../models';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { CreateOrderService } from '../services/create-order.service';
 
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [SubHeaderComponent, CounterInputComponent, MatCardModule, MatButtonModule],
+  imports: [ActionsComponent, SubHeaderComponent, CounterInputComponent, MatCardModule, MatButtonModule],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss'
 })
@@ -48,6 +49,7 @@ export class ItemsComponent implements OnInit {
       product.disable = true;
       this.selectedProducts.push(product);
     }
+
     this.createOrderService.selectedProducts = this.selectedProducts;
   }
 

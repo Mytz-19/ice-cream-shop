@@ -1,18 +1,18 @@
 <div class="section">
       <app-sub-header headerContent="Select Employees"></app-sub-header>
       <div class="section-content flex-row-align-center">
-                  @for (employee of employees; track employee.id){
-                        <mat-card class="{{createOrderService.employeeId === employee.id && isToggled ? 'selected' : 'highlight'}}" 
-                              [style.cursor]="'pointer'"
-                              (click)="createOrder(employee.id)">
-                              <mat-card-header>
-                                    <img src="../../assets/images/emp_1.png" alt="Employee" class="img-icon"> 
-                              </mat-card-header>
-                              <mat-card-content>
-                                    <h3 [style.text-align]="'center'"> {{ employee.name }} </h3> 
-                              </mat-card-content>
-                        </mat-card>
-                  }
+            @for (employee of employees; track employee.id){
+                  <mat-card class="{{createOrderService.employeeId === employee.id && isToggled ? 'selected' : 'highlight'}}" 
+                        [style.cursor]="'pointer'"
+                        (click)="createOrder(employee.id)">
+                        <mat-card-header>
+                              <img src="../../assets/images/emp_1.png" alt="Employee" class="img-icon"> 
+                        </mat-card-header>
+                        <mat-card-content>
+                              <h3 [style.text-align]="'center'"> {{ employee.name }} </h3> 
+                        </mat-card-content>
+                  </mat-card>
+            }
       </div>
 
 </div>
