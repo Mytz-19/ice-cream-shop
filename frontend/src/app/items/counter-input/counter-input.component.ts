@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,17 +12,25 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class CounterInputComponent {
 
-  @Input() counterValue = 1;
   @Input() isDisabled: boolean = false;
+  @Output() count: EventEmitter<number> = new EventEmitter<number>();
+  
+  protected counterValue = 1;
 
   increment() {
-    if(!this.isDisabled) this.counterValue++;
+    if(!this.isDisabled) {
+      this.counterValue++;
+      this.count.emit(this.counterValue);
+    }
   }
 
   decrement() {
     if(!this.isDisabled) {
       if(this.counterValue<=1) return;
-      else this.counterValue--;
+      else {
+        this.counterValue--;
+        this.count.emit(this.counterValue);
+      }
     }
   }
 }

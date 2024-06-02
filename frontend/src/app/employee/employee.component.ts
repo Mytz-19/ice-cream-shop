@@ -44,6 +44,5 @@ export class EmployeeComponent implements OnInit{
     
 
     this.createOrderService.employeeId = employeeId;
-    this.createOrderService.isNewOrder = this.isToggled;
   }
 }

@@ -1,12 +1,20 @@
-import { ItemQty } from "./enums/item-quantity";
+import { ItemType } from "./enums/item-quantity";
+
+export interface ProductsPerQty {
+    qty: number;
+    price: number;
+}
 
 export interface Products {
     id: string;
     name: string;
-    price: number;
+    piece: ProductsPerQty;
+    box?: ProductsPerQty;
 }
 
-export interface ProductsWithQty extends Products{
-    selectedQty: ItemQty;
+export interface SelectedProduct extends Products {
+    item_type: ItemType;
+    item_count: number;
     disable: boolean;
+    price: number;
 }

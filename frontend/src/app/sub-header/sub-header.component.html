@@ -2,7 +2,7 @@
     <span class="section-header">{{headerContent}}</span>
     @if(currentRoute === employees) {
         <button mat-flat-button class="blue-btn"
-            [disabled]="!createOrderService.isNewOrder"
+            [disabled]="!createOrderService.employeeId"
             (click)="navigateTo('items')">New Order</button>
     }
     @if(currentRoute === items) {

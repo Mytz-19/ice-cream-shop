@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductsWithQty } from '../models';
+import { SelectedProduct } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -8,17 +8,8 @@ export class CreateOrderService {
 
   constructor() { }
 
-  private _isNewOrder = false;
   private _employeeId = '';
-  private _selectedProducts: ProductsWithQty[] =[];
-
-  public set isNewOrder(val: boolean) {
-    this._isNewOrder = val;
-  }
-
-  public get isNewOrder(): boolean {
-    return this._isNewOrder;
-  }
+  private _selectedProducts: SelectedProduct[] =[];
 
   public set employeeId(val: string) {
     this._employeeId = val;
@@ -27,12 +18,12 @@ export class CreateOrderService {
   public get employeeId(): string {
     return this._employeeId;
   }
-  
-  public set selectedProducts(selectedItems: ProductsWithQty[]) {
-    this._selectedProducts = selectedItems;
+
+  public set selectedProducts(items: SelectedProduct[]) {
+    this._selectedProducts = items;
   }
 
-  public get selectedProducts(): ProductsWithQty[] {
+  public get selectedProducts(): SelectedProduct[] {
     return this._selectedProducts;
   }
 }

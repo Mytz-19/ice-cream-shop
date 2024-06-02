@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { CreateOrderService } from '../services/create-order.service';
-import { ProductsWithQty, Routes } from '../models';
+import { SelectedProduct } from '../models';
 
 import { MatButtonModule } from '@angular/material/button';
 
@@ -15,9 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class ActionsComponent {
 
   @Input()
-  public selectedProducts: ProductsWithQty[] = [];
+  public selectedProducts: SelectedProduct[] = [];
 
-  // calculateProductsPrice(): number {
-
-  // }
+  calculateProductsPrice(): number {
+    return this.selectedProducts.reduce((total, pdt) => total + pdt.price, 0);
+  }
 }

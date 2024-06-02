@@ -12,33 +12,40 @@
                             {{product.name}}
                         </div>
                         <div class="margin" [style.font-weight]="200">
-                            Rs. {{product.price}}/piece
+                            Rs. {{product.piece.price}}/piece
                         </div>
                         <div>
                             <label>
-                                <input [name]="product.id" type="radio" [value]="selectedQty" (change)="product.selectedQty = ItemQty.PIECE" [checked]="product.selectedQty === ItemQty.PIECE" [disabled]="product.disable"/>
+                                <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.PIECE)" [checked]="product.item_type === ItemType.PIECE" [disabled]="product.disable"/>
                                 Piece
-                            </label>                             
-                            <label>
-                                <input [name]="product.id" type="radio" (change)="product.selectedQty = ItemQty.BOX" [disabled]="product.disable"/>
-                                Box
-                            </label>                         
+                            </label>
+                            @if (product.box) {
+                                <label>
+                                    <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.BOX)" [disabled]="product.disable"/>
+                                    Box
+                                </label>
+                            }                                                
                         </div>
                         <div>
-                            @if (product.selectedQty === ItemQty.PIECE) {
-                                <app-counter-input [isDisabled]="product.disable"></app-counter-input>
-                            }  
+                            @if (product.item_type === ItemType.PIECE) {
+                                <app-counter-input [isDisabled]="product.disable" (count)="updateProductCost($event, product)"></app-counter-input>
+                            }
+                            @else {
+                                <div class="margin" [style.font-weight]="200">
+                                    ({{product.box?.qty}} pieces)
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
                 <div [style.width]="'100%'">
-                    @if (!isProductAdded(product)) {
-                        <button mat-flat-button class="yellow-btn" (click)="saveItems(product)">Add</button>
+                    @if (!isProductSelected(product)) {
+                        <button mat-flat-button class="yellow-btn" (click)="saveProduct(product)">Add</button>
                     }
                     @else {
                         <div class="flex-row-align-center" [style.gap]="'5px'">
                             <button mat-flat-button class="green-btn">Added to Cart</button>
-                            <button mat-flat-button class="gray-btn" (click)="enableItems(product)">Remove</button>
+                            <button mat-flat-button class="gray-btn" (click)="enableProduct(product)">Remove</button>
                         </div>
                     }
                 </div>
