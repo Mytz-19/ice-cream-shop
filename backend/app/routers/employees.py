@@ -26,7 +26,7 @@ async def get_all_employees() -> List[Employee]:
         else:
             raise HTTPException(status_code=404, detail="Employees not found")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
 
 
 @router.get("/employee/{id}", summary="Return employee", response_model=Employee)
@@ -38,7 +38,7 @@ async def get_employee_by_id(id: str) -> Employee:
         else:
             raise HTTPException(status_code=404, detail="Employee not found")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
 
 
 @router.post("/employee", summary="Update employee details", response_model=str)
@@ -50,7 +50,7 @@ async def post_employee(employee_detail: EmployeeDetails) -> str:
         else:
             HTTPException(status_code=404, detail="Employee detail can't be added")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
 
 
 @router.delete("/employee/{id}", summary="Delete employee by id", status_code=204)
@@ -62,7 +62,7 @@ async def delete_employee(id: str):
         else:
             raise HTTPException(status_code=404, detail="Employee detail can't be removed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
 
 
 @router.put("/employee/{id}", summary="New employee details", status_code=204)
@@ -75,4 +75,4 @@ async def put_employee(id: str, updated_details: Dict[str, Any]):
         else:
             raise HTTPException(status_code=404, detail="Employee detail can't be updated")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")

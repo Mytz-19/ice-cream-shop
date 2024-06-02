@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 class PricePerQty(BaseModel):
@@ -8,10 +10,10 @@ class Product(BaseModel):
     id: str
     name: str
     piece: PricePerQty
-    box: PricePerQty
+    box: Optional[PricePerQty] = None
 
 
 class ProductDetails(BaseModel):
     name: str
     piece: PricePerQty
-    box: PricePerQty
+    box: Optional[PricePerQty] = None
