@@ -22,6 +22,11 @@
     gap: 20px;
 }
 
+.selected-card-border {
+    border: 2px solid $green-10;
+    box-shadow: 0 0 10px $green-10;
+}
+
 .img-icon {
     width: 100px; 
     height: 100px;
@@ -35,17 +40,18 @@
     gap: 10px;
 }
 
+.action-btn {
+    width: 100px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .yellow-btn {
-    width: inherit;
     background-color: $yellow-10 !important;
 }
 
-.green-btn {
-    width: 70%;
-    background-color: $green-10 !important;
-}
-
-.gray-btn {
-    width: 30%;
-    background-color: $gray-10 !important;
+.red-btn {
+    background-color: $red-10 !important;
 }

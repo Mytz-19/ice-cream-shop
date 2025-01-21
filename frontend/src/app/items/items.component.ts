@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
 
 import { ActionsComponent } from '../actions/actions.component';
@@ -10,11 +11,13 @@ import { ItemType, SelectedProduct } from '../models';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [ActionsComponent, SubHeaderComponent, CounterInputComponent, MatCardModule, MatButtonModule],
+  imports: [CommonModule, ActionsComponent, SubHeaderComponent, CounterInputComponent, MatCardModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss'
 })
@@ -42,38 +45,45 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  selectItemType(product: SelectedProduct, type: ItemType): void {
-    product.item_type = type;
-    if(type === ItemType.BOX) this.updateProductCost(1, product);
+ 
+  isProductSelected(product: SelectedProduct): boolean {
+    return this.selectedProducts.includes(product);
   }
 
-  updateProductCost($event: number, product: SelectedProduct): void {
-    if(product.item_type === ItemType.PIECE) {
-      product.item_count = $event;
-      product.price = $event * product.piece.price;
-    }
-    if(product.item_type === ItemType.BOX && product.box) {
-      product.item_count = $event;
-      product.price = $event * product.box.price;
+  toggleProductSelection(product: SelectedProduct): void {
+    if (this.isProductSelected(product)) {
+      this.enableProduct(product);
+    } else {
+      this.saveProduct(product);
     }
   }
 
   saveProduct(product: SelectedProduct): void {
     product.disable = true; // for the products[] and selectedProducts[]
     this.selectedProducts.push(product);
-
     this.createOrderService.selectedProducts = this.selectedProducts;
-  }
-
-  isProductSelected(product: SelectedProduct): SelectedProduct|undefined {
-    return this.selectedProducts.find(p => p.id === product.id);
   }
 
   enableProduct(product: SelectedProduct): void {
-    product.disable = false;
-
-    this.selectedProducts = this.selectedProducts.filter(item => item.id !== product.id);
+    product.disable = false; // for the products[] and selectedProducts[]
+    product.item_count = 1; // Reset the stepper to 1
+    product.price = product.item_type === ItemType.PIECE ? product.piece.price : product.box ? product.box.price : 0;
+    this.selectedProducts = this.selectedProducts.filter(p => p !== product);
     this.createOrderService.selectedProducts = this.selectedProducts;
   }
-}
 
+  selectItemType(product: SelectedProduct, type: ItemType): void {
+    product.item_type = type;
+    if(type === ItemType.BOX) this.updateProductCost(1, product);
+  }
+
+  updateProductCost($event: number, product: SelectedProduct): void {
+    product.item_count = $event;
+    if(product.item_type === ItemType.PIECE) {
+      product.price = $event * product.piece.price;
+    }
+    if(product.item_type === ItemType.BOX && product.box) {
+      product.price = $event * product.box.price;
+    }
+  }
+}

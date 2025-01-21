@@ -1,56 +1,45 @@
 <div class="section">
     <app-sub-header headerContent="Add Items"></app-sub-header>
     <div [style.margin]="'2em'" class="flex-row-align-center-wrap section-content">
-        @for (product of products; track product) {
-            <mat-card class="flex-column-align-center-justify-space-between item-card">
-                <div class="flex-row-align-center-justify-space-between">
+        <mat-card class="flex-column-align-center-justify-space-between item-card" *ngFor="let product of products" [ngClass]="{'selected-card-border': isProductSelected(product)}">
+            <div class="flex-row-align-center-justify-space-between">
+                <div>
+                    <img src="../../assets/images/ice-cream.png" alt="Ice-Cream" class="img-icon"> 
+                </div>
+                <div class="flex-column-align-start content-gap">
+                    <div class="margin" [style.font-weight]="600">
+                        {{product.name}}
+                    </div>
+                    <div class="margin" [style.font-weight]="200">
+                        Rs. {{product.piece.price}}/piece
+                    </div>
                     <div>
-                        <img src="../../assets/images/ice-cream.png" alt="Ice-Cream" class="img-icon"> 
+                        <label>
+                            <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.PIECE)" [checked]="product.item_type === ItemType.PIECE" [disabled]="product.disable"/>
+                            Piece
+                        </label>
+                        <label *ngIf="product.box">
+                            <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.BOX)" [disabled]="product.disable"/>
+                            Box
+                        </label>
                     </div>
-                    <div class="flex-column-align-start content-gap">
-                        <div class="margin" [style.font-weight]="600">
-                            {{product.name}}
-                        </div>
-                        <div class="margin" [style.font-weight]="200">
-                            Rs. {{product.piece.price}}/piece
-                        </div>
-                        <div>
-                            <label>
-                                <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.PIECE)" [checked]="product.item_type === ItemType.PIECE" [disabled]="product.disable"/>
-                                Piece
-                            </label>
-                            @if (product.box) {
-                                <label>
-                                    <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.BOX)" [disabled]="product.disable"/>
-                                    Box
-                                </label>
-                            }                                                
-                        </div>
-                        <div>
-                            @if (product.item_type === ItemType.PIECE) {
-                                <app-counter-input [isDisabled]="product.disable" (count)="updateProductCost($event, product)"></app-counter-input>
-                            }
-                            @else {
-                                <div class="margin" [style.font-weight]="200">
-                                    ({{product.box?.qty}} pieces)
-                                </div>
-                            }
+                    <div class="flex-row-align-center">
+                        <app-counter-input [isDisabled]="product.disable" (count)="updateProductCost($event, product)"></app-counter-input>
+                        <div class="margin" *ngIf="product.item_type === ItemType.BOX" [style.font-weight]="200">
+                            ({{(product.box?.qty || 0) * (product.item_count || 0)}} pieces)
                         </div>
                     </div>
+                    <div [style.width]="'100%'">
+                        <button mat-flat-button class="action-btn" [ngClass]="{'yellow-btn': !isProductSelected(product), 'red-btn': isProductSelected(product)}" (click)="toggleProductSelection(product)">
+                            {{ isProductSelected(product) ? 'Remove' : 'Add' }}
+                        </button>
+                    </div>
                 </div>
-                <div [style.width]="'100%'">
-                    @if (!isProductSelected(product)) {
-                        <button mat-flat-button class="yellow-btn" (click)="saveProduct(product)">Add</button>
-                    }
-                    @else {
-                        <div class="flex-row-align-center" [style.gap]="'5px'">
-                            <button mat-flat-button class="green-btn">Added to Cart</button>
-                            <button mat-flat-button class="gray-btn" (click)="enableProduct(product)">Remove</button>
-                        </div>
-                    }
-                </div>
-            </mat-card>
-        }
+            </div>
+        </mat-card>
     </div>
     <app-actions [selectedProducts]="selectedProducts"></app-actions>
+    <div *ngIf="products.length === 0" class="flex-row-align-center-justify-center" [style.height]="'50%'">
+        <mat-spinner></mat-spinner>
+    </div>
 </div>

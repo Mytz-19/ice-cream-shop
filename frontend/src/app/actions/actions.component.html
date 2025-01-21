@@ -1,12 +1,18 @@
-@if(selectedProducts.length > 0) {
-    <div class="spacer"></div>
-    <div class="flex-row-align-center-justify-space-between actions-bar">
-        <div>Total Price</div>
-        <div>Rs. {{calculateProductsPrice()}}</div>
+<div *ngIf="selectedProducts.length > 0" (click)="toggleExpand()" class="actions-container" [ngClass]="{'expanded': isExpanded}">
+    <div>
+        <div class="spacer"></div>
+        <div class="flex-row-align-center-justify-space-between actions-bar">
+            <div class="price-text">Total Price</div>
+            <div class="flex-row-align-center price-container">
+                <div class="price-text">Rs. {{calculateProductsPrice()}}</div>
+                <mat-icon>{{ isExpanded ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+            </div>
+        </div>
+        <div *ngIf="isExpanded" class="selected-products-list">
+            <div class="product-item" *ngFor="let product of selectedProducts">
+                <div class="price-text">{{ product.name }}</div>
+                <div class="price-text">{{ product.item_count }} x {{ product.item_type === ItemType.PIECE ? 'Piece' : 'Box' }}</div>
+            </div>
+        </div>
     </div>
-}
-<div class="flex-row-align-center-justify-center" [style.height]="'50%'">
-    @if(!selectedProducts.length) {
-          <mat-spinner></mat-spinner>
-    }
 </div>
