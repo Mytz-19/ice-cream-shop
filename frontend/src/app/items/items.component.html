@@ -1,45 +1,146 @@
-<div class="section">
-    <app-sub-header headerContent="Add Items"></app-sub-header>
-    <div [style.margin]="'2em'" class="flex-row-align-center-wrap section-content">
-        <mat-card class="flex-column-align-center-justify-space-between item-card" *ngFor="let product of products" [ngClass]="{'selected-card-border': isProductSelected(product)}">
-            <div class="flex-row-align-center-justify-space-between">
-                <div>
-                    <img src="../../assets/images/ice-cream.png" alt="Ice-Cream" class="img-icon"> 
-                </div>
-                <div class="flex-column-align-start content-gap">
-                    <div class="margin" [style.font-weight]="600">
-                        {{product.name}}
-                    </div>
-                    <div class="margin" [style.font-weight]="200">
-                        Rs. {{product.piece.price}}/piece
-                    </div>
-                    <div>
-                        <label>
-                            <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.PIECE)" [checked]="product.item_type === ItemType.PIECE" [disabled]="product.disable"/>
-                            Piece
-                        </label>
-                        <label *ngIf="product.box">
-                            <input [name]="product.id" type="radio" (change)="selectItemType(product, ItemType.BOX)" [disabled]="product.disable"/>
-                            Box
-                        </label>
-                    </div>
-                    <div class="flex-row-align-center">
-                        <app-counter-input [isDisabled]="product.disable" (count)="updateProductCost($event, product)"></app-counter-input>
-                        <div class="margin" *ngIf="product.item_type === ItemType.BOX" [style.font-weight]="200">
-                            ({{(product.box?.qty || 0) * (product.item_count || 0)}} pieces)
-                        </div>
-                    </div>
-                    <div [style.width]="'100%'">
-                        <button mat-flat-button class="action-btn" [ngClass]="{'yellow-btn': !isProductSelected(product), 'red-btn': isProductSelected(product)}" (click)="toggleProductSelection(product)">
-                            {{ isProductSelected(product) ? 'Remove' : 'Add' }}
-                        </button>
-                    </div>
-                </div>
+<div class="items-page">
+  <div class="items-container">
+    <div class="top-section">
+      <div class="header-section">
+        <h2 class="section-title">Select Items</h2>
+        <p class="section-description">Choose your favorite ice cream items</p>
+      </div>
+      <div class="search-section">
+        <div class="search-container">
+          <div class="search-icon">
+            <mat-icon>search</mat-icon>
+          </div>
+          <input 
+            type="text"
+            [(ngModel)]="searchQuery" 
+            (keyup)="filterProducts()"
+            placeholder="Search items by name..."
+            class="search-input">
+          <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="products-grid">
+        @for (product of filteredProducts; track product.id) {
+          <div class="product-card">
+            <div class="product-image">
+              <img [src]="getProductImage(product.name)" [alt]="product.name">
+              <div class="product-badge" *ngIf="product.box">
+                Box Available
+              </div>
             </div>
-        </mat-card>
+            <mat-card-content>
+              <div class="product-header">
+                <h3 class="product-name">{{product.name}}</h3>
+                <span class="product-price">Rs {{product.price}}</span>
+              </div>
+              <div class="product-options">
+                <button mat-button class="option-button" 
+                        [class.active]="product.item_type === ItemType.PIECE"
+                        (click)="selectItemType(product, ItemType.PIECE)"
+                        [disabled]="product.disable">
+                      Piece
+                </button>
+                <button mat-button class="option-button" 
+                        *ngIf="product.box"
+                        [class.active]="product.item_type === ItemType.BOX"
+                        (click)="selectItemType(product, ItemType.BOX)"
+                        [disabled]="product.disable">
+                  Box
+                </button>
+              </div>
+              <div class="product-actions">
+                <app-counter-input class="quantity-control"
+                                 [min]="1"
+                                 [(ngModel)]="product.item_count"
+                                 [isDisabled]="product.disable"
+                                 (count)="updateProductCost($event, product)">
+                </app-counter-input>
+                <button mat-raised-button class="add-to-cart"
+                        [class.remove-state]="isProductInCart(product)"
+                        [disabled]="product.disable && !isProductInCart(product)"
+                        (click)="toggleProductSelection(product)">
+                  <ng-container *ngIf="isProductInCart(product); else addButton">
+                    <mat-icon>remove_shopping_cart</mat-icon>
+                    Remove
+                  </ng-container>
+                  <ng-template #addButton>
+                    <mat-icon>add_shopping_cart</mat-icon>
+                    Add
+                  </ng-template>
+                </button>
+              </div>
+            </mat-card-content>
+          </div>
+        }
+      </div>
+      <div class="empty-state" *ngIf="filteredProducts.length === 0">
+        <h3>No Items Found</h3>
+      </div>
     </div>
-    <app-actions [selectedProducts]="selectedProducts"></app-actions>
-    <div *ngIf="products.length === 0" class="flex-row-align-center-justify-center" [style.height]="'50%'">
-        <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Expandable Cart -->
+  <div class="expandable-cart" *ngIf="hasSelectedItems()" [class.expanded]="isCartVisible">
+    <!-- Compact Cart Bar -->
+    <div class="compact-cart-summary" (click)="toggleCart()">
+      <div class="cart-preview">
+        <div class="cart-preview-items">
+          <div class="preview-item" *ngFor="let item of selectedProducts.slice(0, 3)">
+            <img [src]="getProductImage(item.name)" [alt]="item.name">
+          </div>
+          <div class="more-items" *ngIf="selectedProducts.length > 3">
+            +{{selectedProducts.length - 3}}
+          </div>
+        </div>
+      </div>
+      <div class="cart-info">
+        <div class="item-count">{{selectedProducts.length}} items</div>
+        <div class="total-price">Rs {{cartTotal}}</div>
+      </div>
+      <div class="cart-actions">
+        <button mat-raised-button class="view-cart">
+          <mat-icon>{{isCartVisible ? 'expand_less' : 'expand_more'}}</mat-icon>
+          {{isCartVisible ? 'Hide Details' : 'View Details'}}
+        </button>
+        <button mat-raised-button class="checkout-now" (click)="proceedToCheckout(); $event.stopPropagation();">
+          <mat-icon>payments</mat-icon>
+          Checkout
+        </button>
+      </div>
     </div>
+    
+    <!-- Expanded Cart Details -->
+    <div class="expanded-cart-details">
+      <div class="cart-items-list">
+        <div class="cart-item" *ngFor="let item of selectedProducts">
+          <img [src]="getProductImage(item.name)" [alt]="item.name" class="item-image">
+          <div class="item-details">
+            <div class="item-name">{{item.name}}</div>
+            <div class="item-quantity">{{item.item_count}} {{item.item_type === ItemType.PIECE ? 'pieces' : 'boxes'}}</div>
+          </div>
+          <div class="item-price">
+            <mat-icon>payments</mat-icon>
+            Rs {{item.price}}
+          </div>
+          <div class="item-actions">
+            <button mat-mini-fab color="warn" class="remove-button" (click)="removeFromCart(item); $event.stopPropagation();">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="cart-footer">
+        <button mat-raised-button class="checkout-button" (click)="proceedToCheckout(); $event.stopPropagation();">
+          <mat-icon>shopping_cart_checkout</mat-icon>
+          Proceed to Checkout (Rs {{cartTotal}})
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<app-actions></app-actions>

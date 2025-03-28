@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SelectedProduct } from '../models';
+import { Employee, SelectedProduct } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +8,17 @@ export class CreateOrderService {
 
   constructor() { }
 
-  private _employeeId = '';
+  public _selectedEmployee: Employee | null = null
   private _selectedProducts: SelectedProduct[] =[];
 
-  public set employeeId(val: string) {
-    this._employeeId = val;
+  // Getter for selectedEmployee
+  get selectedEmployee(): Employee | null {
+    return this._selectedEmployee;
   }
 
-  public get employeeId(): string {
-    return this._employeeId;
+  // Setter for selectedEmployee
+  set selectedEmployee(employee: Employee | null) {
+    this._selectedEmployee = employee;
   }
 
   public set selectedProducts(items: SelectedProduct[]) {

@@ -1,5 +1,9 @@
-<div class="flex-row-align-center" class="{{isDisabled ? 'disabled': ''}}">
-    <mat-icon aria-label="Add" fontIcon="add_circle" (click)="increment()"></mat-icon>
-    {{counterValue}}
-    <mat-icon aria-label="Remove" fontIcon="remove_circle" (click)="decrement()"></mat-icon>
+<div class="counter-container">
+  <button mat-icon-button (click)="decrement()" [disabled]="isDisabled || counterValue <= min">
+    <mat-icon>remove</mat-icon>
+  </button>
+  <span class="counter-value">{{ counterValue }}</span>
+  <button mat-icon-button (click)="increment()" [disabled]="isDisabled || counterValue >= max">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

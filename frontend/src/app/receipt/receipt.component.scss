@@ -1,0 +1,607 @@
+/* Receipt Container */
+.receipt-container {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background: white;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* Prevent scroll bars */
+
+    .receipt-header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eee;
+
+        h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+            color: #666;
+        }
+    }
+
+    .outstanding-balance {
+        background-color: #fff3e0;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        mat-icon {
+            color: #f57c00;
+        }
+
+        span {
+            color: #e65100;
+            font-weight: 500;
+        }
+    }
+
+    table {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .total-section {
+        text-align: right;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+
+        h3 {
+            margin: 0;
+            color: #333;
+        }
+    }
+
+    .payment-section {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+
+        h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        mat-form-field {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .remaining-balance {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+
+            p {
+                margin: 0;
+                color: #1976d2;
+            }
+        }
+
+        button {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    .payment-history {
+        margin: 20px 0;
+
+        button {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-list {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+
+            table {
+                margin: 0;
+            }
+
+            .paid {
+                color: #4caf50;
+                font-weight: 500;
+            }
+
+            .pending {
+                color: #ff9800;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .receipt-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    }
+}
+
+@media print {
+    .receipt-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .payment-section,
+    .payment-history,
+    .receipt-actions {
+        display: none;
+    }
+}
+
+/* Receipt Details */
+.receipt-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detail-item {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Table Container */
+.table-container {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Prevent scroll bars */
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.mat-header-cell {
+    background-color: #002b60;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mat-cell {
+    text-align: center;
+    font-size: 14px;
+    padding: 12px;
+}
+
+.mat-row:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.mat-row:hover {
+    background-color: #e0e0e0;
+}
+
+/* Amount Paid Section */
+.amount-paid-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.amount-paid-section label {
+    font-size: 16px;
+    color: #333;
+}
+
+.amount-paid-section input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 150px;
+}
+
+.amount-paid-section button {
+    background-color: #002b60;
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.amount-paid-section button:hover {
+    background-color: #004080;
+}
+
+.receipt-page {
+  min-height: 100vh;
+  background: #1a1a1a;
+  padding: 24px;
+  color: #ffffff;
+
+  .receipt-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #2d2d2d;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .header-section {
+    margin-bottom: 32px;
+    text-align: center;
+    padding: 32px;
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(45deg, #ffffff, #b3b3b3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-description {
+      color: #b3b3b3;
+      font-size: 1rem;
+      margin: 8px 0 0;
+    }
+  }
+
+  .order-info-section {
+    padding: 0 24px;
+    margin-bottom: 32px;
+
+    .info-card {
+      background: #3d3d3d;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .info-label {
+          color: #b3b3b3;
+          font-size: 0.9rem;
+        }
+
+        .info-value {
+          color: #ffffff;
+          font-weight: 500;
+        }
+
+        .outstanding-amount {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #ff4081;
+
+          mat-icon {
+            font-size: 20px;
+            height: 20px;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .order-items-section {
+    padding: 0 24px;
+    margin-bottom: 32px;
+
+    .items-card {
+      background: #3d3d3d;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      .items-header {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        padding: 16px 24px;
+        background: rgba(0, 0, 0, 0.2);
+        font-weight: 500;
+        color: #b3b3b3;
+      }
+
+      .items-list {
+        .item-row {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr;
+          padding: 16px 24px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .item-name {
+            color: #ffffff;
+          }
+
+          .item-quantity {
+            color: #b3b3b3;
+          }
+
+          .item-price {
+            color: #ff69b4;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .items-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        background: rgba(0, 0, 0, 0.2);
+        font-weight: 500;
+
+        .total-amount {
+          color: #ff69b4;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  .payment-section {
+    padding: 0 24px;
+    margin-bottom: 32px;
+
+    .payment-card {
+      background: #3d3d3d;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      .payment-title {
+        color: #ffffff;
+        margin: 0 0 24px;
+        font-size: 1.2rem;
+      }
+
+      .payment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .payment-input {
+          width: 100%;
+        }
+
+        .balance-info {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+          padding: 16px;
+
+          .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .balance-amount {
+              font-weight: 500;
+              &.negative {
+                color: #ff4081;
+              }
+            }
+          }
+        }
+
+        .process-payment-btn {
+          background: linear-gradient(45deg, #ff69b4, #ff4081);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+          }
+
+          mat-icon {
+            font-size: 20px;
+            height: 20px;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .history-section {
+    padding: 0 24px;
+    margin-bottom: 32px;
+
+    .history-card {
+      background: #3d3d3d;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      .history-toggle {
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #ffffff;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      .history-content {
+        .history-list {
+          .history-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            .history-date {
+              color: #b3b3b3;
+            }
+
+            .history-amount {
+              color: #ff69b4;
+              font-weight: 500;
+            }
+
+            .history-status {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              &.paid {
+                color: #4caf50;
+              }
+
+              &.pending {
+                color: #ffc107;
+              }
+
+              mat-icon {
+                font-size: 18px;
+                height: 18px;
+                width: 18px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .actions-section {
+    padding: 24px;
+    display: flex;
+    justify-content: flex-end;
+
+    .print-button {
+      background: #3d3d3d;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #4d4d4d;
+        transform: translateY(-2px);
+      }
+
+      mat-icon {
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+}
+
+@media print {
+  .receipt-page {
+    background: white;
+    padding: 0;
+    color: #000000;
+
+    .receipt-container {
+      box-shadow: none;
+      background: white;
+    }
+
+    .payment-section,
+    .history-section,
+    .actions-section {
+      display: none;
+    }
+
+    .header-section {
+      .section-title {
+        color: #000000;
+        -webkit-text-fill-color: #000000;
+      }
+
+      .section-description {
+        color: #666666;
+      }
+    }
+
+    .order-info-section,
+    .order-items-section {
+      .info-card,
+      .items-card {
+        background: white;
+        border: 1px solid #eeeeee;
+      }
+    }
+  }
+}

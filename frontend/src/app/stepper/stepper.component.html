@@ -1,0 +1,19 @@
+<div class="stepper-container">
+  <div class="steps">
+    <div *ngFor="let step of steps; let i = index" class="step-wrapper">
+      <div class="step" 
+           [class.active]="currentStep >= i + 1" 
+           [class.completed]="currentStep > i + 1"
+           (click)="navigateToStep(i + 1)">
+        <div class="step-icon">
+          <mat-icon>{{ step.icon }}</mat-icon>
+        </div>
+        <div class="step-label">{{ step.label }}</div>
+      </div>
+      <div class="step-line" 
+           *ngIf="i < steps.length - 1" 
+           [class.active]="currentStep > i + 1">
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,2 +1,106 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+<div class="app-container">
+  <mat-toolbar color="primary" class="header">
+    <div class="header-content">
+      <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="logo-container">
+        <div class="logo-wrapper">
+          <div class="ice-cream-logo">
+            <div class="cone">
+              <div class="cone-body"></div>
+              <div class="cone-shadow"></div>
+            </div>
+            <div class="scoops">
+              <div class="scoop scoop-1">
+                <div class="sprinkles"></div>
+              </div>
+              <div class="scoop scoop-2">
+                <div class="sprinkles"></div>
+              </div>
+              <div class="scoop scoop-3">
+                <div class="sprinkles"></div>
+              </div>
+            </div>
+            <div class="cherry">
+              <div class="cherry-body"></div>
+              <div class="cherry-stem"></div>
+            </div>
+          </div>
+          <div class="logo-glow"></div>
+        </div>
+        <span class="logo-text">GANGA FOODS</span>
+      </div>
+      <span class="spacer"></span>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidenav">
+      <div class="sidenav-content">
+        <div class="nav-section">
+          <h3 class="nav-title">Order Process</h3>
+          <div class="step-navigation">
+            <div class="step-item" 
+                 [class.active]="currentStep === 1" 
+                 [class.completed]="currentStep > 1"
+                 (click)="navigateToEmployee()">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <div class="step-icon">
+                  <mat-icon>person</mat-icon>
+                </div>
+                <div class="step-details">
+                  <span class="step-title">Select Employee</span>
+                  <span class="step-description">Choose an employee to process the order</span>
+                </div>
+              </div>
+              <div class="step-connector"></div>
+            </div>
+
+            <div class="step-item" 
+                 [class.active]="currentStep === 2" 
+                 [class.completed]="currentStep > 2" 
+                 [class.disabled]="!isEmployeeSelected"
+                 (click)="navigateToItems()">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <div class="step-icon">
+                  <mat-icon>shopping_cart</mat-icon>
+                </div>
+                <div class="step-details">
+                  <span class="step-title">Select Items</span>
+                  <span class="step-description">Choose ice cream items and quantities</span>
+                </div>
+              </div>
+              <div class="step-connector"></div>
+            </div>
+
+            <div class="step-item" 
+                 [class.active]="currentStep === 3" 
+                 [class.completed]="currentStep === 3" 
+                 [class.disabled]="!isItemsSelected"
+                 (click)="navigateToReceipt()">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <div class="step-icon">
+                  <mat-icon>receipt</mat-icon>
+                </div>
+                <div class="step-details">
+                  <span class="step-title">Generate Receipt</span>
+                  <span class="step-description">Review and complete the order</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

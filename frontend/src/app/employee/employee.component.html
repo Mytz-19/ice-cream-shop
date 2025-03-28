@@ -1,23 +1,78 @@
-<div class="section">
-      <app-sub-header headerContent="Select Employees"></app-sub-header>
-      <div class="section-content flex-row-align-center">
-            @for (employee of employees; track employee.id){
-                  <mat-card class="{{createOrderService.employeeId === employee.id && isToggled ? 'selected' : 'highlight'}}" 
-                        [style.cursor]="'pointer'"
-                        (click)="createOrder(employee.id)">
-                        <mat-card-header>
-                              <img src="../../assets/images/emp_1.png" alt="Employee" class="img-icon"> 
-                        </mat-card-header>
-                        <mat-card-content>
-                              <h3 [style.text-align]="'center'"> {{ employee.name }} </h3> 
-                        </mat-card-content>
-                  </mat-card>
-            }
-      </div>
-      <div class="flex-row-align-center-justify-center" [style.height]="'50%'">
-            @if(!employees.length) {
-                  <mat-spinner></mat-spinner>
-            }
-      </div>
+<div class="employee-container">
+  <div class="header-section">
+    <h2 class="section-title">Select Employee</h2>
+    <p class="section-description">Choose an employee to process the order</p>
+  </div>
 
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-icon">
+        <mat-icon>search</mat-icon>
+      </div>
+      <input 
+        type="text"
+        [(ngModel)]="searchQuery" 
+        (keyup)="filterEmployees()"
+        placeholder="Search employees by name..."
+        class="search-input">
+      <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="employee-grid">
+      <div *ngFor="let employee of filteredEmployees" 
+           class="employee-card"
+           [class.selected]="selectedEmployee?.id === employee.id"
+           (click)="selectEmployee(employee)">
+        <div class="avatar-wrapper">
+          <div class="avatar">
+            <div class="avatar-inner">
+              <div class="avatar-circle">
+                <div class="avatar-initial">{{employee.name.charAt(0)}}</div>
+              </div>
+              <div class="avatar-status"></div>
+            </div>
+          </div>
+        </div>
+        <div class="employee-info">
+          <h3 class="employee-name">{{employee.name}}</h3>
+          <div class="employee-details">
+            <span class="outstanding-amount">
+              <mat-icon>account_balance_wallet</mat-icon>
+              Outstanding: Rs. {{employee.outstanding_amt}}
+            </span>
+            <div class="next-icon" 
+                 *ngIf="selectedEmployee?.id === employee.id"
+                 (click)="confirmSelection(); $event.stopPropagation()">
+              <mat-icon>arrow_forward</mat-icon>
+            </div>
+          </div>
+        </div>
+        <div class="card-glow"></div>
+      </div>
+    </div>
+
+    <div class="selected-employee-preview" *ngIf="selectedEmployee">
+      <div class="preview-content">
+        <div class="preview-avatar">
+          <div class="avatar-circle">
+            <div class="avatar-initial">{{selectedEmployee.name.charAt(0)}}</div>
+          </div>
+        </div>
+        <div class="preview-info">
+          <h3>{{selectedEmployee.name}}</h3>
+          <span>Selected Employee</span>
+        </div>
+        <button mat-raised-button 
+                class="confirm-button"
+                (click)="confirmSelection()">
+          <mat-icon>arrow_forward</mat-icon>
+          <span>Continue to Items</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

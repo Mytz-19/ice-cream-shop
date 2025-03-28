@@ -1,0 +1,132 @@
+<div class="receipt-page">
+  <div class="receipt-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <h2 class="section-title">Order Receipt</h2>
+      <p class="section-description">Review and process your order payment</p>
+    </div>
+
+    <!-- Order Info Section -->
+    <div class="order-info-section">
+      <div class="info-card">
+        <div class="info-row">
+          <span class="info-label">Date</span>
+          <span class="info-value">{{ orderDate | date:'medium' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Employee</span>
+          <span class="info-value">{{ employeeName }}</span>
+        </div>
+        <div class="info-row" *ngIf="outstandingBalance > 0">
+          <span class="info-label">Outstanding</span>
+          <div class="outstanding-amount">
+            <mat-icon>warning</mat-icon>
+            <span>Rs {{ outstandingBalance }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Items Section -->
+    <div class="order-items-section">
+      <div class="items-card">
+        <div class="items-header">
+          <div class="header-item">Item</div>
+          <div class="header-quantity">Quantity</div>
+          <div class="header-price">Price</div>
+        </div>
+        <div class="items-list">
+          <div class="item-row" *ngFor="let product of products">
+            <div class="item-name">{{ product.name }}</div>
+            <div class="item-quantity">
+              {{ product.item_count }} {{ product.item_type === ItemType.PIECE ? 'pieces' : 'boxes' }}
+            </div>
+            <div class="item-price">Rs {{ product.price }}</div>
+          </div>
+        </div>
+        <div class="items-total">
+          <span>Total Amount</span>
+          <span class="total-amount">Rs {{ totalCost }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Section -->
+    <div class="payment-section">
+      <div class="payment-card">
+        <h3 class="payment-title">Payment Details</h3>
+        
+        <div class="payment-form">
+          <mat-form-field appearance="outline" class="payment-input">
+            <mat-label>Payment Method</mat-label>
+            <mat-select [(ngModel)]="paymentMethod">
+              <mat-option value="cash">
+                <mat-icon>payments</mat-icon>
+                Cash
+              </mat-option>
+              <mat-option value="card">
+                <mat-icon>credit_card</mat-icon>
+                Card
+              </mat-option>
+              <mat-option value="upi">
+                <mat-icon>phone_android</mat-icon>
+                UPI
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="payment-input">
+            <mat-label>Amount Paid</mat-label>
+            <input matInput type="number" [(ngModel)]="amountPaid" placeholder="Enter amount">
+            <mat-icon matSuffix>currency_rupee</mat-icon>
+          </mat-form-field>
+
+          <div class="balance-info" *ngIf="amountPaid > 0">
+            <div class="balance-row">
+              <span>Remaining Balance</span>
+              <span class="balance-amount" [class.negative]="calculateRemainingBalance() < 0">
+                Rs {{ calculateRemainingBalance() }}
+              </span>
+            </div>
+          </div>
+
+          <button mat-raised-button class="process-payment-btn" (click)="submit()">
+            <mat-icon>check_circle</mat-icon>
+            Process Payment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment History Section -->
+    <div class="history-section">
+      <div class="history-card">
+        <button mat-button class="history-toggle" (click)="togglePaymentHistory()">
+          <mat-icon>{{ showPaymentHistory ? 'expand_less' : 'expand_more' }}</mat-icon>
+          Payment History
+        </button>
+
+        <div class="history-content" *ngIf="showPaymentHistory">
+          <div class="history-list">
+            <div class="history-item" *ngFor="let payment of paymentHistory">
+              <div class="history-date">{{ payment.date | date:'medium' }}</div>
+              <div class="history-amount">Rs {{ payment.amount }}</div>
+              <div class="history-status" [class]="payment.status">
+                <mat-icon>{{ payment.status === 'paid' ? 'check_circle' : 'pending' }}</mat-icon>
+                {{ payment.status | titlecase }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="actions-section">
+      <button mat-raised-button class="print-button" (click)="printReceipt()">
+        <mat-icon>print</mat-icon>
+        Print Receipt
+      </button>
+    </div>
+  </div>
+</div>

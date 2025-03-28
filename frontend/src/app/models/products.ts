@@ -17,4 +17,5 @@ export interface SelectedProduct extends Products {
     item_count: number;
     disable: boolean;
     price: number;
+    category: string;
 }
