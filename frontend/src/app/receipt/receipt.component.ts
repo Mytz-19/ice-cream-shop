@@ -39,7 +39,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   employeeName: string = '';
   employeeId: string = '';
   orderDate: Date = new Date();
-  amountPaid: number = 0;
+  amountPaid!: number;
   totalCost: number = 0;
   outstandingBalance: number = 0;
   allowCredit: boolean = false;
@@ -164,6 +164,8 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     } else {
       alert(`Payment of Rs ${this.amountPaid} processed successfully!`);
     }
+    
+    this.createOrderService.updatePaymentStatus(true)
     
     // Reset form
     this.amountPaid = 0;

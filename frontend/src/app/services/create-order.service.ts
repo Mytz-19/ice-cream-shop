@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class CreateOrderService {
   private _selectedEmployeeSubject = new BehaviorSubject<Employee | null>(null);
   private _selectedProductsSubject = new BehaviorSubject<SelectedProduct[]>([]);
+  private isPaymentCompleted: boolean = false;
 
   // Expose observables
   selectedEmployee$ = this._selectedEmployeeSubject.asObservable();
@@ -59,5 +60,14 @@ export class CreateOrderService {
   clearSelections() {
     this._selectedEmployeeSubject.next(null);
     this._selectedProductsSubject.next([]);
+  }
+
+  updatePaymentStatus(completed: boolean) {
+    this.isPaymentCompleted = completed;
+    if (completed) {
+      localStorage.setItem('paymentCompleted', 'true');
+    } else {
+      localStorage.removeItem('paymentCompleted');
+    }
   }
 }

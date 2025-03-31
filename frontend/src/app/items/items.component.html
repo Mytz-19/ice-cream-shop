@@ -116,7 +116,7 @@
     <!-- Expanded Cart Details -->
     <div class="expanded-cart-details">
       <div class="cart-items-list">
-        <div class="cart-item" *ngFor="let item of selectedProducts">
+        <div class="cart-item" *ngFor="let item of createOrderService.selectedProducts">
           <img [src]="getProductImage(item.name)" [alt]="item.name" class="item-image">
           <div class="item-details">
             <div class="item-name">{{item.name}}</div>
@@ -124,10 +124,13 @@
           </div>
           <div class="item-price">
             <mat-icon>payments</mat-icon>
-            Rs {{item.price}}
+            Rs {{item.price * item.item_count}}
           </div>
           <div class="item-actions">
-            <button mat-mini-fab color="warn" class="remove-button" (click)="removeFromCart(item); $event.stopPropagation();">
+            <button mat-mini-fab color="warn" class="remove-button" 
+                    (click)="removeFromCart(item); $event.stopPropagation()"
+                    (mousedown)="$event.stopPropagation()"
+                    (touchstart)="$event.stopPropagation()">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

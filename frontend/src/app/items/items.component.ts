@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 
 import { ActionsComponent } from '../actions/actions.component';
 import { CounterInputComponent } from './counter-input/counter-input.component';
-import { StepperComponent } from '../stepper/stepper.component';
 import { RestService } from '../services/rest.service';
 import { CreateOrderService } from '../services/create-order.service';
 import { ItemType, SelectedProduct } from '../models';
@@ -35,7 +34,6 @@ interface Category {
     FormsModule,
     ActionsComponent,
     CounterInputComponent,
-    StepperComponent,
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -86,6 +84,8 @@ export class ItemsComponent implements OnInit {
           item_count: 1,
           disable: false,
           price: product.piece.price,
+          basePrice: product.piece.price, // Add basePrice
+          displayPrice: product.piece.price, // Add displayPrice
           category: this.determineCategory(product.name)
         }));
         this.filterProducts();
@@ -137,6 +137,11 @@ export class ItemsComponent implements OnInit {
     this.filterProducts();
   }
 
+  updateSelectedProducts() {
+    this.selectedProducts = [...this.createOrderService.selectedProducts];
+  }
+
+  // Keep this calculation as is
   updateCartTotal(): void {
     this.cartTotal = this.createOrderService.selectedProducts.reduce(
       (total, product) => total + (product.price * product.item_count),
@@ -152,52 +157,55 @@ export class ItemsComponent implements OnInit {
   isProductInCart(product: SelectedProduct): boolean {
     return this.createOrderService.selectedProducts.some(p => p.id === product.id);
   }
-
+  
   toggleProductSelection(product: SelectedProduct): void {
     if (this.isProductInCart(product)) {
-      // Remove from cart
       this.createOrderService.removeProduct(product.id);
-      // Reset the product state
       product.disable = false;
       product.item_count = 1;
-      this.updateCartTotal();
     } else {
-      // Add to cart
       this.createOrderService.addProduct(product);
       product.disable = true;
-      this.updateCartTotal();
     }
+    this.updateSelectedProducts();
+    this.updateCartTotal(); // Ensure this is called
   }
-
+  
   removeFromCart(item: SelectedProduct): void {
-    // Find the original product in the products array
     const originalProduct = this.products.find(p => p.id === item.id);
     if (originalProduct) {
       originalProduct.disable = false;
       originalProduct.item_count = 1;
+      originalProduct.item_type = ItemType.PIECE;
+      if (originalProduct.piece) {
+        originalProduct.price = originalProduct.piece.price;
+      }
     }
+    
     this.createOrderService.removeProduct(item.id);
-    this.updateCartTotal();
+    this.updateCartTotal(); // Ensure this is called
+    
+    if (!this.hasSelectedItems()) {
+      this.isCartVisible = false;
+    }
+  }
+  
+  // Update this method to only track quantity changes
+  updateProductCost($event: number, product: SelectedProduct): void {
+    product.item_count = $event;  // Only update quantity
+    this.updateCartTotal();       // Update the total
   }
 
+  // Update item type selection
   selectItemType(product: SelectedProduct, type: ItemType): void {
     product.item_type = type;
-    product.item_count = 1;
+    product.item_count = 1;  // Reset quantity when changing type
     if (type === ItemType.PIECE) {
-      product.price = product.piece.price;
+      product.price = product.piece.price;  // Set base price for piece
     } else if (type === ItemType.BOX && product.box) {
-      product.price = product.box.price;
+      product.price = product.box.price;    // Set base price for box
     }
-  }
-
-  updateProductCost($event: number, product: SelectedProduct): void {
-    product.item_count = $event;
-    if(product.item_type === ItemType.PIECE) {
-      product.price = $event * product.piece.price;
-    }
-    if(product.item_type === ItemType.BOX && product.box) {
-      product.price = $event * product.box.price;
-    }
+    this.updateCartTotal();
   }
 
   clearCart(): void {
@@ -224,7 +232,7 @@ export class ItemsComponent implements OnInit {
   }
 
   hasSelectedItems(): boolean {
-    return this.createOrderService.selectedProducts.length > 0;
+    return this.createOrderService.selectedProducts && this.createOrderService.selectedProducts.length > 0;
   }
 
   confirmSelection() {

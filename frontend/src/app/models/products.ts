@@ -18,4 +18,6 @@ export interface SelectedProduct extends Products {
     disable: boolean;
     price: number;
     category: string;
+    basePrice: number;      // The single item price
+    displayPrice: number;   // The calculated price (basePrice * quantity)
 }
