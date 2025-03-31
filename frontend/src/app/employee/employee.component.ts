@@ -10,8 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 
 import { ItemsComponent } from '../items/items.component';
@@ -34,7 +32,6 @@ import { Employee } from '../models';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule
   ],
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.scss']
@@ -50,7 +47,6 @@ export class EmployeeComponent implements OnInit {
     public createOrderService: CreateOrderService,
     private restService: RestService,
     private router: Router,
-    private snackBar: MatSnackBar,
     private appComponent: AppComponent
   ) {}
 
@@ -82,19 +78,14 @@ export class EmployeeComponent implements OnInit {
     );
   }
 
-  selectEmployee(employee: any) {
+  selectEmployee(employee: Employee): void {
     this.selectedEmployee = employee;
+    this.createOrderService.selectedEmployee = employee;
   }
 
-  confirmSelection() {
+  confirmSelection(): void {
     if (this.selectedEmployee) {
-      // Save selected employee data
-      localStorage.setItem('selectedEmployeeData', JSON.stringify(this.selectedEmployee));
-      
-      // Update step status in parent component
-      this.appComponent.updateStepStatus(1, true);
-      
-      // Navigate to items page
+      this.createOrderService.selectedEmployee = this.selectedEmployee;
       this.router.navigate(['/items']);
     }
   }

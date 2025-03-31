@@ -19,8 +19,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppComponent } from '../app.component';
 
 interface Category {
   id: string;
@@ -64,11 +62,14 @@ export class ItemsComponent implements OnInit {
   public selectedFilter: 'all' | 'pieces' | 'boxes' = 'all';
 
   constructor(
+    public createOrderService: CreateOrderService,
     private restService: RestService,
-    private createOrderService: CreateOrderService,
     private router: Router,
-    private snackBar: MatSnackBar
   ) {}
+
+  get selectedCartProducts(): SelectedProduct[] {
+    return this.createOrderService.selectedProducts;
+  }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -93,11 +94,6 @@ export class ItemsComponent implements OnInit {
     } catch (error) {
       console.error('Error loading products:', error);
       this.isLoading = false;
-      this.snackBar.open('Error loading products. Please try again.', 'Close', {
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
     }
   }
 
@@ -142,7 +138,10 @@ export class ItemsComponent implements OnInit {
   }
 
   updateCartTotal(): void {
-    this.cartTotal = this.selectedProducts.reduce((total, product) => total + product.price, 0);
+    this.cartTotal = this.createOrderService.selectedProducts.reduce(
+      (total, product) => total + (product.price * product.item_count),
+      0
+    );
   }
 
   getProductImage(productName: string): string {
@@ -151,20 +150,20 @@ export class ItemsComponent implements OnInit {
   }
 
   isProductInCart(product: SelectedProduct): boolean {
-    return this.selectedProducts.some(p => p.id === product.id);
+    return this.createOrderService.selectedProducts.some(p => p.id === product.id);
   }
 
   toggleProductSelection(product: SelectedProduct): void {
     if (this.isProductInCart(product)) {
       // Remove from cart
-      this.selectedProducts = this.selectedProducts.filter(p => p.id !== product.id);
+      this.createOrderService.removeProduct(product.id);
       // Reset the product state
       product.disable = false;
       product.item_count = 1;
       this.updateCartTotal();
     } else {
       // Add to cart
-      this.selectedProducts.push({ ...product });
+      this.createOrderService.addProduct(product);
       product.disable = true;
       this.updateCartTotal();
     }
@@ -177,7 +176,7 @@ export class ItemsComponent implements OnInit {
       originalProduct.disable = false;
       originalProduct.item_count = 1;
     }
-    this.selectedProducts = this.selectedProducts.filter(p => p.id !== item.id);
+    this.createOrderService.removeProduct(item.id);
     this.updateCartTotal();
   }
 
@@ -202,20 +201,12 @@ export class ItemsComponent implements OnInit {
   }
 
   clearCart(): void {
-    this.selectedProducts.forEach(product => {
+    this.createOrderService.selectedProducts.forEach(product => {
       this.removeFromCart(product);
     });
   }
 
   proceedToCheckout(): void {
-    if (this.selectedProducts.length === 0) {
-      this.snackBar.open('Please add items to cart first', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
-      return;
-    }
     this.router.navigate(['/receipt']);
   }
 
@@ -233,7 +224,7 @@ export class ItemsComponent implements OnInit {
   }
 
   hasSelectedItems(): boolean {
-    return this.selectedProducts.length > 0;
+    return this.createOrderService.selectedProducts.length > 0;
   }
 
   confirmSelection() {

@@ -1,22 +1,23 @@
 <div class="employee-container">
-  <div class="header-section">
-    <h2 class="section-title">Select Employee</h2>
-    <p class="section-description">Choose an employee to process the order</p>
-  </div>
-
-  <div class="search-section">
-    <div class="search-container">
-      <div class="search-icon">
-        <mat-icon>search</mat-icon>
-      </div>
-      <input 
-        type="text"
-        [(ngModel)]="searchQuery" 
-        (keyup)="filterEmployees()"
-        placeholder="Search employees by name..."
-        class="search-input">
-      <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
-        <mat-icon>close</mat-icon>
+  <div class="top-section">
+    <div class="header-section">
+      <h2 class="section-title">Select Employee</h2>
+      <p class="section-description">Choose an employee to process the order</p>
+    </div>
+    <div class="search-section">
+      <div class="search-container">
+        <div class="search-icon">
+          <mat-icon>search</mat-icon>
+        </div>
+        <input 
+          type="text"
+          [(ngModel)]="searchQuery" 
+          (keyup)="filterEmployees()"
+          placeholder="Search employees by name..."
+          class="search-input">
+        <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </div>
       </div>
     </div>
   </div>
