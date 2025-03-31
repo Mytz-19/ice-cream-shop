@@ -1,9 +1,24 @@
 @import './../../styles.scss';
 
+// New dark theme variables
+$background-color: #121212;
+$component-background: #1e1e1e;
+$card-background: #2d2d2d;
+$card-header-background: #212121;
+$accent-color: #bb86fc;
+$accent-color-dark: #6a1b9a;
+$accent-color-light: #4a148c;
+$text-primary: #e0e0e0;
+$text-secondary: #9e9e9e;
+$success-color: #69f0ae;
+$warning-color: #ff7043;
+$shadow-color: rgba(0, 0, 0, 0.4);
+
 .section {
     height: calc(100% - 12.2em);
     display: block;
     overflow-y: scroll;
+    background-color: $background-color;
 }
 
 .section-content {
@@ -16,15 +31,14 @@
     height: 250px;
     width: 450px;
     padding: 2em;
-    background-color: $blue-30;
-
-    // required for flex
+    background-color: $card-background;
+    box-shadow: 0 4px 8px $shadow-color;
     gap: 20px;
 }
 
 .selected-card-border {
-    border: 2px solid $green-10;
-    box-shadow: 0 0 10px $green-10;
+    border: 2px solid $success-color;
+    box-shadow: 0 0 10px rgba($success-color, 0.5);
 }
 
 .img-icon {
@@ -41,15 +55,15 @@
 }
 
 .action-btn {
-    width: 100px; /* Fixed width */
-    height: 40px; /* Fixed height */
+    width: 100px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .yellow-btn {
-    background-color: $yellow-10 !important;
+    background-color: $warning-color !important;
 }
 
 .red-btn {
@@ -61,7 +75,9 @@
   height: 100%;
   overflow-x: hidden;
   position: relative;
-  padding-bottom: 80px; // Space for the cart
+  padding-bottom: 80px;
+  background-color: $background-color;
+  color: $text-primary;
 }
 
 .items-container {
@@ -89,15 +105,14 @@
     .section-title {
       font-size: 2rem;
       font-weight: 700;
-      color: #ffffff;
       margin: 0;
-      background: linear-gradient(45deg, #ffffff, #b3b3b3);
+      background: linear-gradient(45deg, $accent-color-dark, $accent-color);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .section-description {
-      color: #b3b3b3;
+      color: $text-secondary;
       font-size: 1rem;
       margin: 8px 0 0;
     }
@@ -112,17 +127,17 @@
     max-width: 600px;
     margin: 0 auto;
     position: relative;
-    background: #2d2d2d;
+    background: $component-background;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px $shadow-color;
     transition: all 0.3s ease;
     overflow: hidden;
 
     &:hover, &:focus-within {
-      background: #3d3d3d;
-      border-color: rgba(255, 105, 180, 0.3);
-      box-shadow: 0 4px 25px rgba(255, 105, 180, 0.1);
+      background: $card-background;
+      border-color: rgba($accent-color, 0.3);
+      box-shadow: 0 4px 25px rgba($accent-color, 0.2);
       transform: translateY(-2px);
     }
   }
@@ -132,7 +147,7 @@
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #b3b3b3;
+    color: $text-secondary;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,18 +163,18 @@
     padding: 16px 48px;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: $text-primary;
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
 
     &::placeholder {
-      color: #666666;
+      color: rgba($text-secondary, 0.7);
     }
 
     &:focus {
       & + .search-icon {
-        color: #ff69b4;
+        color: $accent-color;
       }
     }
   }
@@ -169,7 +184,7 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #b3b3b3;
+    color: $text-secondary;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -181,7 +196,7 @@
 
     &:hover {
       background: rgba(255, 255, 255, 0.1);
-      color: #ff69b4;
+      color: $accent-color;
     }
 
     mat-icon {
@@ -214,11 +229,11 @@
   }
 
   .product-card {
-    background: #2d2d2d;
+    background: $card-background;
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px $shadow-color;
     position: relative;
     width: 100%;
     max-width: 350px;
@@ -228,8 +243,8 @@
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-      background: #3d3d3d;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+      background: lighten($card-background, 5%);
 
       .product-image {
         img {
@@ -238,7 +253,7 @@
       }
 
       .product-badge {
-        background: rgba(255, 105, 180, 0.9);
+        background: rgba($accent-color, 0.9);
       }
     }
 
@@ -246,7 +261,7 @@
       position: relative;
       height: 200px;
       overflow: hidden;
-      background: #1a1a1a;
+      background: $background-color;
 
       img {
         width: 100%;
@@ -259,7 +274,7 @@
         position: absolute;
         top: 12px;
         right: 12px;
-        background: rgba(255, 105, 180, 0.8);
+        background: rgba($accent-color, 0.8);
         color: white;
         padding: 4px 12px;
         border-radius: 20px;
@@ -275,7 +290,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background: #2d2d2d;
+      background: $card-background;
 
       .product-header {
         display: flex;
@@ -287,7 +302,7 @@
           margin: 0;
           font-size: 1.1rem;
           font-weight: 600;
-          color: #ffffff;
+          color: $text-primary;
           flex: 1;
           min-width: 0;
           white-space: nowrap;
@@ -298,7 +313,7 @@
         .product-price {
           font-size: 1.1rem;
           font-weight: 600;
-          color: #ff69b4;
+          color: $accent-color;
           white-space: nowrap;
         }
       }
@@ -309,8 +324,8 @@
 
         .option-button {
           flex: 1;
-          background: #3d3d3d;
-          color: #ffffff;
+          background: $component-background;
+          color: $text-primary;
           border: none;
           padding: 8px;
           border-radius: 8px;
@@ -319,12 +334,12 @@
           transition: all 0.3s ease;
 
           &:hover:not(:disabled) {
-            background: #4d4d4d;
+            background: lighten($component-background, 10%);
             transform: translateY(-2px);
           }
 
           &.active {
-            background: #ff69b4;
+            background: $accent-color;
             color: white;
           }
 
@@ -345,7 +360,7 @@
         }
 
         .add-to-cart {
-          background: #ff69b4;
+          background: $accent-color;
           color: white;
           padding: 8px 16px;
           border-radius: 8px;
@@ -359,15 +374,15 @@
           transition: all 0.3s ease;
 
           &:hover:not(:disabled) {
-            background: #ff1493;
+            background: darken($accent-color, 10%);
             transform: translateY(-2px);
           }
 
           &.remove-state {
-            background: #dc3545;
+            background: $warning-color;
 
             &:hover:not(:disabled) {
-              background: #c82333;
+              background: darken($warning-color, 10%);
             }
           }
 
@@ -393,7 +408,7 @@
     justify-content: center;
     padding: 4rem;
     text-align: center;
-    color: #b3b3b3;
+    color: $text-secondary;
     border-radius: 16px;
     margin: 2rem;
 
@@ -402,21 +417,21 @@
       width: 64px;
       height: 64px;
       margin-bottom: 1.5rem;
-      color: #ff69b4;
+      color: $accent-color;
       opacity: 0.8;
     }
 
     h3 {
       font-size: 1.75rem;
       margin: 0 0 0.75rem;
-      color: #ffffff;
+      color: $text-primary;
       font-weight: 600;
     }
 
     p {
       margin: 0;
       font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: $text-secondary;
     }
   }
 }
@@ -426,11 +441,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(45, 45, 45, 0.95);
+  background: rgba($card-background, 0.95);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 999;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -4px 20px $shadow-color;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
 
@@ -458,8 +473,8 @@
           height: 38px;
           border-radius: 50%;
           overflow: hidden;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-          border: 2px solid #ff69b4;
+          box-shadow: 0 2px 8px $shadow-color;
+          border: 2px solid $accent-color;
           margin-left: -8px;
           transition: all 0.2s ease;
           
@@ -483,7 +498,7 @@
           width: 38px;
           height: 38px;
           border-radius: 50%;
-          background: rgba(255, 105, 180, 0.3);
+          background: rgba($accent-color, 0.3);
           color: white;
           display: flex;
           align-items: center;
@@ -491,8 +506,8 @@
           font-weight: 700;
           margin-left: -8px;
           font-size: 0.85rem;
-          border: 2px solid rgba(255, 105, 180, 0.6);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          border: 2px solid rgba($accent-color, 0.6);
+          box-shadow: 0 2px 8px $shadow-color;
         }
       }
     }
@@ -506,12 +521,12 @@
       gap: 1rem;
       
       .item-count {
-        color: #b3b3b3;
+        color: $text-secondary;
         font-size: 0.9rem;
       }
       
       .total-price {
-        color: #ff69b4;
+        color: $accent-color;
         font-weight: 700;
         font-size: 1.1rem;
       }
@@ -538,13 +553,13 @@
       }
 
       .view-cart {
-        background: rgba(255, 105, 180, 0.2);
+        background: rgba($accent-color, 0.2);
         color: white;
-        border: 1px solid rgba(255, 105, 180, 0.3);
+        border: 1px solid rgba($accent-color, 0.3);
         
         &:hover {
-          background: rgba(255, 105, 180, 0.3);
-          border-color: rgba(255, 105, 180, 0.5);
+          background: rgba($accent-color, 0.3);
+          border-color: rgba($accent-color, 0.5);
         }
         
         mat-icon {
@@ -553,13 +568,13 @@
       }
       
       .checkout-now {
-        background: linear-gradient(135deg, #ff69b4, #ff1493);
+        background: linear-gradient(135deg, $accent-color, $accent-color-dark);
         color: white;
         border: none;
-        box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+        box-shadow: 0 2px 8px rgba($accent-color, 0.3);
         
         &:hover {
-          box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+          box-shadow: 0 4px 12px rgba($accent-color, 0.4);
           transform: translateY(-2px);
         }
       }
@@ -570,7 +585,7 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(45, 45, 45, 0.98);
+    background: rgba($card-background, 0.98);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
@@ -599,15 +614,15 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem;
-      background: rgba(61, 61, 61, 0.8);
+      background: rgba($component-background, 0.8);
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.3s ease;
 
       &:hover {
-        background: rgba(77, 77, 77, 0.9);
+        background: rgba(lighten($component-background, 10%), 0.9);
         transform: translateX(-4px);
-        border-color: rgba(255, 105, 180, 0.3);
+        border-color: rgba($accent-color, 0.3);
       }
 
       .item-image {
@@ -622,7 +637,7 @@
         min-width: 0;
 
         .item-name {
-          color: #ffffff;
+          color: $text-primary;
           font-weight: 600;
           margin-bottom: 0.25rem;
           font-size: 0.95rem;
@@ -632,13 +647,13 @@
         }
 
         .item-quantity {
-          color: #b3b3b3;
+          color: $text-secondary;
           font-size: 0.85rem;
         }
       }
 
       .item-price {
-        color: #ff69b4;
+        color: $accent-color;
         font-weight: 700;
         font-size: 0.95rem;
         display: flex;
@@ -653,6 +668,7 @@
           height: 28px;
           min-height: 0;
           padding: 0;
+          background-color: $warning-color;
           
           mat-icon {
             font-size: 14px;
@@ -673,7 +689,7 @@
 
     .checkout-button {
       width: 100%;
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      background: linear-gradient(135deg, $accent-color, $accent-color-dark);
       color: white;
       padding: 0.75rem;
       border-radius: 12px;
@@ -687,7 +703,7 @@
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        box-shadow: 0 4px 15px rgba($accent-color, 0.3);
       }
 
       mat-icon {
@@ -699,6 +715,7 @@
   }
 }
 
+// Keep the media queries intact with dark theme variables
 @media (max-width: 1366px) {
   .main-content {
     .products-grid {
