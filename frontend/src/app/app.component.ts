@@ -60,15 +60,21 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updateCurrentStep(this.router.url);
-    this.createIceCreamParticles();
     this.checkScreenSize();
+    // If the current route is root or not a recognized step, redirect to /employees
+    const currentUrl = this.router.url;
+    const isValidStep = currentUrl.includes('/employees') || currentUrl.includes('/items') || currentUrl.includes('/receipt');
+
+    if (!isValidStep) {
+      this.router.navigate(['/employees']);
+    }
+
+    this.updateCurrentStep(currentUrl);
   }
 
   private updateSelectionStates() {
     this.isEmployeeSelected = !!this.createOrderService.selectedEmployee;
     this.isItemsSelected = this.createOrderService.selectedProducts.length > 0;
-    this.currentStep = 1;
   }
 
   private checkScreenSize() {
@@ -103,6 +109,8 @@ export class AppComponent implements OnInit {
     if (this.isEmployeeSelected || this.currentStep === 3) {
       this.currentStep = 2;
       this.router.navigate(['/items']);
+    } else {
+      this.showError('Please select an employee first.');
     }
   }
   
@@ -110,27 +118,15 @@ export class AppComponent implements OnInit {
     if ((this.isEmployeeSelected && this.isItemsSelected) || this.currentStep === 3) {
       this.currentStep = 3;
       this.router.navigate(['/receipt']);
+    } else {
+      this.showError('Please complete all previous steps first.');
     }
   }
-  
 
   private showError(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 10000,
+      duration: 3000,
       panelClass: ['error-snackbar']
     });
-  }
-
-  private createIceCreamParticles() {
-    const container = document.querySelector('.app-container');
-    if (!container) return;
-
-    for (let i = 0; i < 10; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'ice-cream-particle';
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.animationDelay = `${Math.random() * 5}s`;
-      container.appendChild(particle);
-    }
   }
 }
