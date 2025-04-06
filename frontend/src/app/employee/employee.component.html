@@ -13,7 +13,7 @@
           type="text"
           [(ngModel)]="searchQuery" 
           (keyup)="filterEmployees()"
-          placeholder="Search employees by name..."
+          placeholder="Search employees..."
           class="search-input">
         <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
           <mat-icon>close</mat-icon>

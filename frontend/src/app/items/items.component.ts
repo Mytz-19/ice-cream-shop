@@ -157,7 +157,7 @@ export class ItemsComponent implements OnInit {
   isProductInCart(product: SelectedProduct): boolean {
     return this.createOrderService.selectedProducts.some(p => p.id === product.id);
   }
-  
+
   toggleProductSelection(product: SelectedProduct): void {
     if (this.isProductInCart(product)) {
       this.createOrderService.removeProduct(product.id);

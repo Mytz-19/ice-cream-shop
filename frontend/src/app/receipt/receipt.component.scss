@@ -308,7 +308,15 @@
   .payment-actions {
     display: flex;
     justify-content: center;
-
+    gap: 16px;
+    margin-top: 24px;
+  
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+  
     .process-payment-btn {
       background: linear-gradient(45deg, #6a1b9a, #4a148c);
       color: white;
@@ -323,8 +331,27 @@
       }
       
       &:disabled {
-        opacity: 0.4;
+        opacity: 0.6;
         background: #424242;
+        cursor: not-allowed;
+      }
+      
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  
+    .download-receipt-btn {
+      background: linear-gradient(45deg, #1565c0, #0d47a1);
+      color: white;
+      border-radius: 8px;
+      padding: 8px 32px;
+      font-weight: 500;
+      transition: all 0.3s;
+      
+      &:hover {
+        box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
+        transform: translateY(-2px);
       }
       
       mat-icon {

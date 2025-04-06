@@ -14,7 +14,7 @@
             type="text"
             [(ngModel)]="searchQuery" 
             (keyup)="filterProducts()"
-            placeholder="Search items by name..."
+            placeholder="Search items..."
             class="search-input">
           <div class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
             <mat-icon>close</mat-icon>
@@ -30,19 +30,19 @@
               <img [src]="getProductImage(product.name)" [alt]="product.name">
               <div class="product-badge" *ngIf="product.box">
                 Box Available
-              </div>
-            </div>
+                </div>
+                    </div>
             <mat-card-content>
               <div class="product-header">
                 <h3 class="product-name">{{product.name}}</h3>
                 <span class="product-price">Rs {{product.price}}</span>
-              </div>
+                    </div>
               <div class="product-options">
                 <button mat-button class="option-button" 
                         [class.active]="product.item_type === ItemType.PIECE"
                         (click)="selectItemType(product, ItemType.PIECE)"
                         [disabled]="product.disable">
-                      Piece
+                            Piece
                 </button>
                 <button mat-button class="option-button" 
                         *ngIf="product.box"
@@ -100,7 +100,7 @@
       <div class="cart-info">
         <div class="item-count">{{selectedProducts.length}} items</div>
         <div class="total-price">Rs {{cartTotal}}</div>
-      </div>
+                    </div>
       <div class="cart-actions">
         <button mat-raised-button class="view-cart">
           <mat-icon>{{isCartVisible ? 'expand_less' : 'expand_more'}}</mat-icon>
@@ -110,8 +110,8 @@
           <mat-icon>payments</mat-icon>
           Checkout
         </button>
-      </div>
-    </div>
+                        </div>
+                    </div>
     
     <!-- Expanded Cart Details -->
     <div class="expanded-cart-details">
@@ -132,18 +132,18 @@
                     (mousedown)="$event.stopPropagation()"
                     (touchstart)="$event.stopPropagation()">
               <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
       <div class="cart-footer">
         <button mat-raised-button class="checkout-button" (click)="proceedToCheckout(); $event.stopPropagation();">
           <mat-icon>shopping_cart_checkout</mat-icon>
           Proceed to Checkout (Rs {{cartTotal}})
         </button>
-      </div>
     </div>
-  </div>
+    </div>
+    </div>
 </div>
 
 <app-actions></app-actions>

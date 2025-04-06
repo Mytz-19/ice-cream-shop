@@ -1,5 +1,5 @@
 <div class="receipt-page">
-  <div class="receipt-container">
+  <div class="receipt-container"  #receiptContainer>
     <!-- Header Section -->
     <div class="header-section">
       <div class="header-content">
@@ -7,7 +7,7 @@
         <p class="section-description">Review and process your order payment</p>
       </div>
       <div class="header-actions">
-        <button mat-icon-button class="print-button" (click)="printReceipt()" aria-label="Print Receipt">
+        <button mat-icon-button class="print-button" (click)="printReceipt()" *ngIf="paymentProcessed" aria-label="Print Receipt">
           <mat-icon>print</mat-icon>
         </button>
       </div>
@@ -59,24 +59,28 @@
       </div>
     </div>
 
-    <!-- Balance Summary Section -->
-    <div class="balance-summary-section">
-      <h3 class="section-subtitle">Balance Summary</h3>
-      <div class="summary-card">
-        <div class="summary-row">
-          <span>Current Order Total</span>
-          <span class="summary-value">Rs {{ totalCost | number:'1.2-2' }}</span>
-        </div>
-        <div class="summary-row" *ngIf="outstandingBalance > 0">
-          <span>Previous Balance</span>
-          <span class="summary-value">Rs {{ outstandingBalance | number:'1.2-2' }}</span>
-        </div>
-        <div class="summary-row total-row">
-          <span>Total Amount Due</span>
-          <span class="total-due">Rs {{ totalCost + outstandingBalance | number:'1.2-2' }}</span>
-        </div>
+  <!-- Balance Summary Section -->
+  <div class="balance-summary-section">
+    <h3 class="section-subtitle">Balance Summary</h3>
+    <div class="summary-card">
+      <div class="summary-row">
+        <span>Current Order Total</span>
+        <span class="summary-value">Rs {{ totalCost | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-row" *ngIf="outstandingBalance > 0 && !paymentProcessed">
+        <span>Previous Balance</span>
+        <span class="summary-value">Rs {{ outstandingBalance | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-row" *ngIf="paymentProcessed">
+        <span>Amount Paid</span>
+        <span class="summary-value">Rs {{ amountPaid | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>{{ paymentProcessed ? 'Remaining Balance' : 'Total Amount Due' }}</span>
+        <span class="total-due">Rs {{ (paymentProcessed ? (totalCost + outstandingBalance - amountPaid) : (totalCost + outstandingBalance)) | number:'1.2-2' }}</span>
       </div>
     </div>
+  </div>
 
     <!-- Cash Payment Section -->
     <div class="cash-payment-section">
@@ -129,13 +133,24 @@
         </div>
       </div>
 
+      <!-- Add this inside the payment-actions div, after the process payment button -->
       <div class="payment-actions">
+        <!-- Process Payment Button -->
         <button mat-raised-button 
                 class="process-payment-btn" 
-                [disabled]="!canProcessPayment()"
+                [disabled]="!canProcessPayment() || paymentProcessed"
                 (click)="submit()">
           <mat-icon>check_circle</mat-icon>
           Process Payment
+        </button>
+        
+        <!-- Download Receipt Button - shows after payment is processed -->
+        <button mat-raised-button 
+                class="download-receipt-btn"
+                *ngIf="paymentProcessed"
+                (click)="downloadReceipt()">
+          <mat-icon>download</mat-icon>
+          Download Receipt
         </button>
       </div>
     </div>
