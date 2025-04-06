@@ -133,7 +133,6 @@
         </div>
       </div>
 
-      <!-- Add this inside the payment-actions div, after the process payment button -->
       <div class="payment-actions">
         <!-- Process Payment Button -->
         <button mat-raised-button 
@@ -151,6 +150,15 @@
                 (click)="downloadReceipt()">
           <mat-icon>download</mat-icon>
           Download Receipt
+        </button>
+        
+        <!-- Return Button - shows after payment is processed -->
+        <button mat-raised-button 
+                class="return-btn"
+                *ngIf="paymentProcessed"
+                (click)="returnToEmployeeSelection()">
+          <mat-icon>arrow_back</mat-icon>
+          New Order
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
@@ -64,7 +65,8 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   constructor(
     private createOrderService: CreateOrderService,
     private restService: RestService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -188,6 +190,20 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     }
     
     this.createOrderService.updatePaymentStatus(true);
+  }
+  
+  returnToEmployeeSelection() {
+    // Reset the service data
+    this.createOrderService.resetOrder();
+    
+    // Navigate to the employee selection page
+    this.router.navigate(['/employees']);
+    
+    // Show a confirmation message
+    this.snackBar.open('Ready for a new order!', 'Close', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
   }
 
   private generateReceiptHtml(): string {

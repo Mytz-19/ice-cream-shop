@@ -238,7 +238,7 @@ export class ItemsComponent implements OnInit {
   confirmSelection() {
     if (this.hasSelectedItems()) {
       // Save selected items data
-      localStorage.setItem('selectedItemsData', JSON.stringify(this.selectedProducts));
+      // localStorage.setItem('selectedItemsData', JSON.stringify(this.selectedProducts));
       
       // Navigate to receipt page
       this.router.navigate(['/receipt']);

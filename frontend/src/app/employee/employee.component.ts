@@ -59,11 +59,7 @@ export class EmployeeComponent implements OnInit {
       error: (err) => console.log(err),
     });
 
-    // Check if employee is already selected
-    const savedEmployee = localStorage.getItem('selectedEmployeeData');
-    if (savedEmployee) {
-      this.selectedEmployee = JSON.parse(savedEmployee);
-    }
+    this.selectedEmployee = this.createOrderService.selectedEmployee;
   }
 
   filterEmployees() {

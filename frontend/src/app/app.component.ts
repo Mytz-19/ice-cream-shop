@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatRippleModule } from '@angular/material/core';
+import { CreateOrderService } from './services/create-order.service';
 
 @Component({
   selector: 'app-root',
@@ -40,27 +41,34 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private createOrderService: CreateOrderService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateCurrentStep(event.url);
+        if (event.url.includes('/employees')) {
+          this.updateSelectionStates();
+        }
       }
     });
   }
 
   @HostListener('window:resize', ['$event'])
-  
   onResize() {
     this.checkScreenSize();
   }
 
   ngOnInit() {
     this.updateCurrentStep(this.router.url);
-    this.isEmployeeSelected = !!localStorage.getItem('selectedEmployee');
-    this.isItemsSelected = !!localStorage.getItem('selectedItems');
     this.createIceCreamParticles();
     this.checkScreenSize();
+  }
+
+  private updateSelectionStates() {
+    this.isEmployeeSelected = !!this.createOrderService.selectedEmployee;
+    this.isItemsSelected = this.createOrderService.selectedProducts.length > 0;
+    this.currentStep = 1;
   }
 
   private checkScreenSize() {
@@ -87,53 +95,30 @@ export class AppComponent implements OnInit {
   }
 
   navigateToEmployee() {
+    this.currentStep = 1;
     this.router.navigate(['/employee']);
   }
-
+  
   navigateToItems() {
-    if (!this.isEmployeeSelected) {
-      this.showError('Please select an employee first');
-      return;
+    if (this.isEmployeeSelected || this.currentStep === 3) {
+      this.currentStep = 2;
+      this.router.navigate(['/items']);
     }
-    this.router.navigate(['/items']);
   }
-
+  
   navigateToReceipt() {
-    if (!this.isItemsSelected) {
-      this.showError('Please select items first');
-      return;
+    if ((this.isEmployeeSelected && this.isItemsSelected) || this.currentStep === 3) {
+      this.currentStep = 3;
+      this.router.navigate(['/receipt']);
     }
-    this.router.navigate(['/receipt']);
   }
+  
 
   private showError(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
+      duration: 10000,
       panelClass: ['error-snackbar']
     });
-  }
-
-  updateStepStatus(step: number, completed: boolean) {
-    switch (step) {
-      case 1:
-        this.isEmployeeSelected = completed;
-        if (completed) {
-          localStorage.setItem('selectedEmployee', 'true');
-        } else {
-          localStorage.removeItem('selectedEmployee');
-        }
-        break;
-      case 2:
-        this.isItemsSelected = completed;
-        if (completed) {
-          localStorage.setItem('selectedItems', 'true');
-        } else {
-          localStorage.removeItem('selectedItems');
-        }
-        break;
-    }
   }
 
   private createIceCreamParticles() {

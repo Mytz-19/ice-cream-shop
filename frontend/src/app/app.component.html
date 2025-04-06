@@ -59,10 +59,10 @@
             </div>
 
             <div class="step-item" 
-                 [class.active]="currentStep === 2" 
-                 [class.completed]="currentStep > 2" 
-                 [class.disabled]="!isEmployeeSelected"
-                 (click)="navigateToItems()">
+                  [class.active]="currentStep === 2" 
+                  [class.completed]="currentStep > 2"
+                  [class.disabled]="!isEmployeeSelected && currentStep !== 3"
+                  (click)="navigateToItems()">       
               <div class="step-number">2</div>
               <div class="step-content">
                 <div class="step-icon">
@@ -77,10 +77,10 @@
             </div>
 
             <div class="step-item" 
-                 [class.active]="currentStep === 3" 
-                 [class.completed]="currentStep === 3" 
-                 [class.disabled]="!isItemsSelected"
-                 (click)="navigateToReceipt()">
+              [class.active]="currentStep === 3" 
+              [class.completed]="currentStep === 3"
+              [class.disabled]="!(isEmployeeSelected && isItemsSelected) && currentStep !== 3"
+              (click)="navigateToReceipt()">       
               <div class="step-number">3</div>
               <div class="step-content">
                 <div class="step-icon">
@@ -115,7 +115,7 @@
     </div>
     <div class="nav-item" 
          [class.active]="currentStep === 2"
-         [class.disabled]="!isEmployeeSelected"
+         [class.disabled]="!isEmployeeSelected && currentStep !== 3"
          (click)="navigateToItems()"
          matRipple>
       <mat-icon>shopping_cart</mat-icon>
@@ -123,7 +123,7 @@
     </div>
     <div class="nav-item" 
          [class.active]="currentStep === 3"
-         [class.disabled]="!isItemsSelected"
+         [class.disabled]="!(isEmployeeSelected && isItemsSelected) && currentStep !== 3"
          (click)="navigateToReceipt()"
          matRipple>
       <mat-icon>receipt</mat-icon>

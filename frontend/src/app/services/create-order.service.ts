@@ -56,10 +56,15 @@ export class CreateOrderService {
     this._selectedProductsSubject.next(currentProducts.filter(p => p.id !== productId));
   }
 
-  // Helper method to clear all selections
-  clearSelections() {
-    this._selectedEmployeeSubject.next(null);
+  resetOrder() {
+    // Reset selected products
     this._selectedProductsSubject.next([]);
+    
+    // Reset selected employee
+    this._selectedEmployeeSubject.next(null);
+    
+    // Reset payment status
+    this.isPaymentCompleted = false;
   }
 
   updatePaymentStatus(completed: boolean) {
