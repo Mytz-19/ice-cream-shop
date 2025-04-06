@@ -1,7 +1,7 @@
 <div class="app-container">
   <mat-toolbar color="primary" class="header">
     <div class="header-content">
-      <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
+      <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" *ngIf="!isMobile">
         <mat-icon>menu</mat-icon>
       </button>
       <div class="logo-container">
@@ -36,7 +36,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <mat-sidenav #sidenav [mode]="getSidenavMode()" [opened]="getSidenavOpened()" class="sidenav">
       <div class="sidenav-content">
         <div class="nav-section">
           <h3 class="nav-title">Order Process</h3>
@@ -103,4 +103,31 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
+
+  <!-- Bottom Navigation for Mobile -->
+  <div *ngIf="isMobile" class="mobile-bottom-nav">
+    <div class="nav-item" 
+         [class.active]="currentStep === 1"
+         (click)="navigateToEmployee()"
+         matRipple>
+      <mat-icon>person</mat-icon>
+      <span class="nav-label">Employee</span>
+    </div>
+    <div class="nav-item" 
+         [class.active]="currentStep === 2"
+         [class.disabled]="!isEmployeeSelected"
+         (click)="navigateToItems()"
+         matRipple>
+      <mat-icon>shopping_cart</mat-icon>
+      <span class="nav-label">Items</span>
+    </div>
+    <div class="nav-item" 
+         [class.active]="currentStep === 3"
+         [class.disabled]="!isItemsSelected"
+         (click)="navigateToReceipt()"
+         matRipple>
+      <mat-icon>receipt</mat-icon>
+      <span class="nav-label">Receipt</span>
+    </div>
+  </div>
 </div>

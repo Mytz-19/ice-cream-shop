@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { StepperComponent } from './stepper/stepper.component';
 import { RouterModule } from '@angular/router';
@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,8 @@ import { CommonModule } from '@angular/common';
     MatMenuModule, 
     MatSidenavModule, 
     MatSnackBarModule,
+    MatBottomSheetModule,
+    MatRippleModule,
     CommonModule
   ],
   templateUrl: './app.component.html',
@@ -31,6 +35,8 @@ export class AppComponent implements OnInit {
   currentStep: number = 1;
   isEmployeeSelected: boolean = false;
   isItemsSelected: boolean = false;
+  isMobile: boolean = false;
+  screenWidth: number = 0;
 
   constructor(
     private router: Router,
@@ -43,11 +49,31 @@ export class AppComponent implements OnInit {
     });
   }
 
+  @HostListener('window:resize', ['$event'])
+  
+  onResize() {
+    this.checkScreenSize();
+  }
+
   ngOnInit() {
     this.updateCurrentStep(this.router.url);
     this.isEmployeeSelected = !!localStorage.getItem('selectedEmployee');
     this.isItemsSelected = !!localStorage.getItem('selectedItems');
     this.createIceCreamParticles();
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    this.screenWidth = window.innerWidth;
+    this.isMobile = this.screenWidth < 768;
+  }
+
+  getSidenavMode() {
+    return this.isMobile ? 'over' : 'side';
+  }
+
+  getSidenavOpened() {
+    return !this.isMobile;
   }
 
   private updateCurrentStep(url: string) {
