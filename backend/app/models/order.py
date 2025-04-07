@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -11,8 +11,9 @@ class Receipt(BaseModel):
 
 
 class Order(BaseModel):
-    id: Optional[str]
-    receipt: Receipt
-    date: datetime
-    employee_id: str
+    id: Optional[str] = None
+    date: str
     total_cost: float
+    outstanding_amt: Optional[float] = None
+    employee_id: str
+    receipt: Optional[List[Receipt]] = None
