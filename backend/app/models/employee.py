@@ -5,10 +5,10 @@ class Employee(BaseModel):
     id: str
     name: str
     image_url: str
-    outstanding_amt: int
+    outstanding_amt: float
 
 
 class EmployeeDetails(BaseModel):
     name: str
     image_url: str
-    outstanding_amt: int
+    outstanding_amt: float
