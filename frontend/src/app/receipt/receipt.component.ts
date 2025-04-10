@@ -12,9 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateOrderService } from '../services/create-order.service';
-import { SelectedProduct } from '../models';
+import { Receipt, SelectedProduct } from '../models';
 import { ItemType } from '../models/enums/item-quantity';
-import { RestService, EmployeePaymentInfo } from '../services/rest.service';
+import { RestService } from '../services/rest.service';
 import { Subject, takeUntil } from 'rxjs';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -54,6 +54,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   protected readonly ItemType = ItemType;
 
   private destroy$ = new Subject<void>();
+  private transactionID: any;
 
   // Add getter for dataSource.data to be used in the template
   get products(): SelectedProduct[] {
@@ -84,12 +85,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
       .subscribe(employee => {
         this.employeeName = employee?.name || '';
         this.employeeId = employee?.id || '';
-        if (employee) {
-          this.loadEmployeePaymentInfo(employee.id);
-        } else {
-          // Reset payment info when no employee is selected
-          this.outstandingBalance = 0;
-        }
+        this.outstandingBalance = employee?.outstanding_amt || 0;
       });
 
     // Initialize sort
@@ -106,21 +102,6 @@ export class ReceiptComponent implements OnInit, OnDestroy {
       (total, product) => total + (product.price * product.item_count),
       0
     );
-  }
-
-  loadEmployeePaymentInfo(employeeId: string) {
-    this.restService.getEmployeePaymentInfo(employeeId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (info: EmployeePaymentInfo) => {
-          this.outstandingBalance = info.outstandingBalance;
-        },
-        error: (error: Error) => {
-          console.error('Error loading employee payment info:', error);
-          // Fallback to mock data if API fails
-          this.outstandingBalance = 1500;
-        }
-      });
   }
 
   calculateRemainingBalance(): number {
@@ -152,46 +133,68 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     }
   
     const newOutstandingBalance = this.calculateRemainingBalance() > 0 ? this.calculateRemainingBalance() : 0;
-    
+  
+    // Transform this.products into the required receipt format
+    const receipt: Receipt[] = this.products.map(product => ({
+      cost: product.price * product.item_count,
+      product_id: product.id,
+      quantity: product.item_count
+    }));
+  
     const paymentData = {
-      employeeId: this.employeeId,
-      orderTotal: this.totalCost,
-      previousBalance: this.outstandingBalance,
-      amountPaid: this.amountPaid,
-      newBalance: newOutstandingBalance,
-      creditAllowed: this.allowCredit,
-      orderDate: this.orderDate,
-      products: this.products
+      employee_id: this.employeeId,
+      date: this.orderDate.toISOString(),
+      total_cost: this.totalCost,
+      outstanding_amt: newOutstandingBalance,
+      receipt: receipt
     };
   
-    // TODO: Save the payment data using your service
-    console.log('Payment data to be saved:', paymentData);
-    
-    // Mark payment as processed
-    this.paymentProcessed = true;
-    
-    // Show success message
-    if (this.calculateRemainingBalance() > 0 && this.allowCredit) {
-      this.snackBar.open(
-        `Payment of Rs ${this.amountPaid} processed. Remaining Rs ${this.calculateRemainingBalance()} added to account.`, 
-        'Close', {
-          duration: 5000,
-          panelClass: ['success-snackbar']
-        }
-      );
-    } else {
-      this.snackBar.open(
-        `Payment of Rs ${this.amountPaid} processed successfully!`, 
-        'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        }
-      );
-    }
-    
-    this.createOrderService.updatePaymentStatus(true);
-  }
+    // Make the POST request to save the payment data
+    this.restService.submitPayment(paymentData).subscribe({
+      next: (response) => {
+        this.transactionID = response;
+        console.log('Order saved successfully:', response);
   
+        // Mark payment as processed
+        this.paymentProcessed = true;
+  
+        // Show success message
+        if (this.calculateRemainingBalance() > 0 && this.allowCredit) {
+          this.snackBar.open(
+            `Payment of Rs ${this.amountPaid} processed. Remaining Rs ${this.calculateRemainingBalance()} added to account.`,
+            'Close',
+            {
+              duration: 5000,
+              panelClass: ['success-snackbar']
+            }
+          );
+        } else {
+          this.snackBar.open(
+            `Payment of Rs ${this.amountPaid} processed successfully!`,
+            'Close',
+            {
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            }
+          );
+        }
+  
+        this.createOrderService.updatePaymentStatus(true);
+      },
+      error: (err) => {
+        console.error('Error saving order:', err);
+        this.snackBar.open(
+          'Failed to save the order. Please try again.',
+          'Close',
+          {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          }
+        );
+      }
+    });
+  }
+
   returnToEmployeeSelection() {
     // Reset the service data
     this.createOrderService.resetOrder();
@@ -374,7 +377,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
           <div class="receipt">
             <div class="header">
               <h1 class="title">ORDER RECEIPT</h1>
-              <p class="subtitle">Transaction #${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}</p>
+              <p class="subtitle">Transaction #${this.transactionID}</p>
               <div class="company-info">
                 Your Company Name<br>
                 123 Business Street, City<br>

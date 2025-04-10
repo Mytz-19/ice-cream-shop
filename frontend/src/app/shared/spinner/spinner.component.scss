@@ -1,0 +1,37 @@
+.svg-spinner {
+    width: 60px;
+    height: 60px;
+    margin: 20px auto;
+  }
+  
+  .ring {
+    fill: none;
+    stroke: #424242; /* Dark gray (track) */
+    stroke-width: 4;
+  }
+  
+  .scoop-path {
+    fill: none;
+    stroke: #FF8A80; /* Pink (strawberry) */
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 60;
+    animation: spin 1.5s infinite ease-in-out;
+  }
+  
+  @keyframes spin {
+    0% { stroke-dashoffset: 100; stroke: #FF8A80; } /* Pink */
+    50% { stroke: #81D4FA; } /* Blue */
+    100% { stroke-dashoffset: 0; stroke: #FFF176; } /* Yellow */
+  }
+
+  body.dark-theme {
+    background: #121212; /* Dark background */
+    color: #FFFFFF;
+  }
+  
+  /* Spinner adjustments for dark mode */
+  .dark-theme-spinner, .svg-spinner {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+  }

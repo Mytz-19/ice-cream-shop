@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { StepperComponent } from './stepper/stepper.component';
+import { StepperComponent } from './shared/stepper/stepper.component';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   screenWidth: number = 0;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private snackBar: MatSnackBar,
     private createOrderService: CreateOrderService
   ) {
@@ -88,6 +88,10 @@ export class AppComponent implements OnInit {
 
   getSidenavOpened() {
     return !this.isMobile;
+  }
+
+  navigateToPastOrders() {
+    this.router.navigate(['/past-orders']);
   }
 
   private updateCurrentStep(url: string) {

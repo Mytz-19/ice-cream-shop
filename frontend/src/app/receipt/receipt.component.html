@@ -49,7 +49,7 @@
             <div class="quantity-col">
               {{ product.item_count }} {{ product.item_type === ItemType.PIECE ? 'pieces' : 'boxes' }}
             </div>
-            <div class="price-col">Rs {{ product.price | number:'1.2-2' }}</div>
+            <div class="price-col">Rs {{ product.price * product.item_count | number:'1.2-2' }}</div>
           </div>
         </div>
         <div class="items-total">
@@ -95,6 +95,7 @@
                  min="0"
                  [(ngModel)]="amountPaid" 
                  (change)="onAmountInputChange($event)"
+                 [disabled]="paymentProcessed"
                  placeholder="Enter amount"
                  class="amount-input">
           <mat-icon matSuffix>currency_rupee</mat-icon>
@@ -102,7 +103,7 @@
       </div>
 
       <div class="payment-options" *ngIf="amountPaid < (totalCost + outstandingBalance) && amountPaid > 0">
-        <mat-checkbox [(ngModel)]="allowCredit" color="primary">
+        <mat-checkbox [(ngModel)]="allowCredit" color="primary" [disabled]="paymentProcessed">
           <span style="color: white;"> Allow credit for remaining balance </span>
         </mat-checkbox>
         <p class="credit-note" *ngIf="allowCredit">

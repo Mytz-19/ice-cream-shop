@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ActionsComponent } from '../actions/actions.component';
+import { ActionsComponent } from './actions/actions.component';
 import { CounterInputComponent } from './counter-input/counter-input.component';
 import { RestService } from '../services/rest.service';
 import { CreateOrderService } from '../services/create-order.service';

@@ -41,10 +41,8 @@
         <div class="nav-section">
           <h3 class="nav-title">Order Process</h3>
           <div class="step-navigation">
-            <div class="step-item" 
-                 [class.active]="currentStep === 1" 
-                 [class.completed]="currentStep > 1"
-                 (click)="navigateToEmployee()">
+            <div class="step-item" [class.active]="currentStep === 1" [class.completed]="currentStep > 1"
+              (click)="navigateToEmployee()">
               <div class="step-number">1</div>
               <div class="step-content">
                 <div class="step-icon">
@@ -58,11 +56,8 @@
               <div class="step-connector"></div>
             </div>
 
-            <div class="step-item" 
-                  [class.active]="currentStep === 2" 
-                  [class.completed]="currentStep > 2"
-                  [class.disabled]="!isEmployeeSelected && currentStep !== 3"
-                  (click)="navigateToItems()">       
+            <div class="step-item" [class.active]="currentStep === 2" [class.completed]="currentStep > 2"
+              [class.disabled]="!isEmployeeSelected && currentStep !== 3" (click)="navigateToItems()">
               <div class="step-number">2</div>
               <div class="step-content">
                 <div class="step-icon">
@@ -76,11 +71,9 @@
               <div class="step-connector"></div>
             </div>
 
-            <div class="step-item" 
-              [class.active]="currentStep === 3" 
-              [class.completed]="currentStep === 3"
+            <div class="step-item" [class.active]="currentStep === 3" [class.completed]="currentStep === 3"
               [class.disabled]="!(isEmployeeSelected && isItemsSelected) && currentStep !== 3"
-              (click)="navigateToReceipt()">       
+              (click)="navigateToReceipt()">
               <div class="step-number">3</div>
               <div class="step-content">
                 <div class="step-icon">
@@ -91,6 +84,23 @@
                   <span class="step-description">Review and complete the order</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-section">
+          <h3 class="nav-title">Management</h3>
+          <div class="step-navigation">
+            <div class="step-item" [class.active]="router.url === '/past-orders'" (click)="navigateToPastOrders()">
+              <div class="step-content">
+                <div class="step-icon">
+                  <mat-icon>history</mat-icon>
+                </div>
+                <div class="step-details">
+                  <span class="step-title">Past Orders</span>
+                  <span class="step-description">View your order history</span>
+                </div>
+              </div>
+              <div class="step-connector"></div>
             </div>
           </div>
         </div>
@@ -106,26 +116,23 @@
 
   <!-- Bottom Navigation for Mobile -->
   <div *ngIf="isMobile" class="mobile-bottom-nav">
-    <div class="nav-item" 
-         [class.active]="currentStep === 1"
-         (click)="navigateToEmployee()"
-         matRipple>
+    <!-- Add past orders navigation -->
+    <div class="nav-item" [class.active]="router.url === '/past-orders'" (click)="navigateToPastOrders()" matRipple>
+      <mat-icon>history</mat-icon>
+      <span class="nav-label">History</span>
+    </div>
+    <div class="nav-item" [class.active]="currentStep === 1" (click)="navigateToEmployee()" matRipple>
       <mat-icon>person</mat-icon>
       <span class="nav-label">Employee</span>
     </div>
-    <div class="nav-item" 
-         [class.active]="currentStep === 2"
-         [class.disabled]="!isEmployeeSelected && currentStep !== 3"
-         (click)="navigateToItems()"
-         matRipple>
+    <div class="nav-item" [class.active]="currentStep === 2" [class.disabled]="!isEmployeeSelected && currentStep !== 3"
+      (click)="navigateToItems()" matRipple>
       <mat-icon>shopping_cart</mat-icon>
       <span class="nav-label">Items</span>
     </div>
-    <div class="nav-item" 
-         [class.active]="currentStep === 3"
-         [class.disabled]="!(isEmployeeSelected && isItemsSelected) && currentStep !== 3"
-         (click)="navigateToReceipt()"
-         matRipple>
+    <div class="nav-item" [class.active]="currentStep === 3"
+      [class.disabled]="!(isEmployeeSelected && isItemsSelected) && currentStep !== 3" (click)="navigateToReceipt()"
+      matRipple>
       <mat-icon>receipt</mat-icon>
       <span class="nav-label">Receipt</span>
     </div>

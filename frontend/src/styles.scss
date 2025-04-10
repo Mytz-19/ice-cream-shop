@@ -1,24 +1,11 @@
 // Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
 $frontend-primary: mat.define-palette(mat.$indigo-palette);
 $frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $frontend-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $frontend-theme: mat.define-light-theme((
   color: (
     primary: $frontend-primary,
@@ -29,16 +16,16 @@ $frontend-theme: mat.define-light-theme((
   density: 0
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($frontend-theme);
 
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+/* Color Variables */
 $white: #ffffff;
 $blue-10: #eef7fe;
 $blue-30: #dbe5f4;
@@ -48,6 +35,7 @@ $green-10: #67b69a;
 $gray-10: #afa8a8;
 $red-10: #d165657a;
 
+/* Flex Utilities */
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -91,4 +79,162 @@ $red-10: #d165657a;
 .flex-column-align-start {
   @extend .flex-column;
   align-items: flex-start;
+}
+
+/* Dark Theme */
+.dark-theme {
+  /* Color Variables */
+  --background-color: #121212;
+  --card-background: #2d2d2d;
+  --card-hover: #212121;
+  --selected-background: #212121;
+  
+  /* Text Colors */
+  --primary-text: #ffffff;
+  --secondary-text: #e0e0e0;
+  
+  /* Input Colors */
+  --input-background: rgba(255, 255, 255, 0.08);
+  --input-text: #ffffff;
+  --input-placeholder: rgba(255, 255, 255, 0.6);
+  --input-border: rgba(255, 255, 255, 0.3);
+  --input-border-focus: #ffffff;
+  --input-label: rgba(255, 255, 255, 0.7);
+
+  /* Form Field Styles */
+  .mat-form-field {
+    color: var(--input-text);
+
+    /* Label */
+    .mat-form-field-label {
+      color: var(--input-label);
+    }
+
+    /* Focused State */
+    &.mat-focused {
+      .mat-form-field-label {
+        color: var(--input-text);
+      }
+      .mat-form-field-ripple {
+        background-color: var(--input-text);
+      }
+      .mat-form-field-outline-thick {
+        color: var(--input-text);
+      }
+    }
+
+    /* Underline */
+    .mat-form-field-underline {
+      background-color: var(--input-border);
+    }
+
+    /* Outline */
+    .mat-form-field-outline {
+      color: var(--input-border);
+    }
+
+    /* Input Element */
+    .mat-input-element {
+      color: var(--input-text);
+      caret-color: var(--input-text);
+
+      &::placeholder {
+        color: var(--input-placeholder);
+      }
+
+      /* Autofill */
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-text-fill-color: var(--input-text);
+        -webkit-box-shadow: 0 0 0px 1000px var(--card-background) inset;
+      }
+    }
+
+    /* Hover State */
+    &:not(.mat-form-field-invalid):hover {
+      .mat-form-field-outline {
+        color: var(--input-text);
+        opacity: 0.8;
+      }
+      .mat-form-field-underline {
+        background-color: var(--input-text);
+        opacity: 0.8;
+      }
+    }
+  }
+
+  /* Error State */
+  .mat-form-field.mat-form-field-invalid {
+    .mat-form-field-label {
+      color: #ff5252;
+    }
+    .mat-form-field-underline,
+    .mat-form-field-outline {
+      color: #ff5252;
+    }
+    .mat-error {
+      color: #ff5252;
+    }
+  }
+
+  /* Select Components */
+  .mat-select {
+    &-value,
+    &-arrow {
+      color: var(--input-text);
+    }
+    &-panel {
+      background: var(--card-background);
+      .mat-option {
+        color: var(--input-text);
+        &.mat-selected:not(.mat-option-disabled) {
+          background: rgba(255, 255, 255, 0.12);
+        }
+        &:hover:not(.mat-option-disabled) {
+          background: rgba(255, 255, 255, 0.08);
+        }
+      }
+    }
+  }
+
+  /* Checkbox */
+  .mat-checkbox {
+    .mat-checkbox-frame {
+      border-color: var(--input-border);
+    }
+    &.mat-checkbox-checked:not(.mat-checkbox-disabled) {
+      .mat-checkbox-background {
+        background-color: var(--input-text);
+      }
+      .mat-checkbox-checkmark-path {
+        stroke: #121212 !important;
+      }
+    }
+  }
+
+  /* Radio Button */
+  .mat-radio-button {
+    .mat-radio-outer-circle {
+      border-color: var(--input-border);
+    }
+    &.mat-radio-checked:not(.mat-radio-disabled) {
+      .mat-radio-outer-circle {
+        border-color: var(--input-text);
+      }
+      .mat-radio-inner-circle {
+        background-color: var(--input-text);
+      }
+    }
+  }
+
+  /* Datepicker */
+  .mat-datepicker-content {
+    background: var(--card-background);
+    color: var(--input-text);
+    .mat-calendar-body-selected {
+      background-color: var(--input-text);
+      color: #121212;
+    }
+  }
 }

@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ItemType, SelectedProduct } from '../models';
+import { ItemType, SelectedProduct } from '../../models';
 
 
 @Component({

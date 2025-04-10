@@ -1,0 +1,332 @@
+.past-orders-container {
+    height: 100%;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // Header section
+  .orders-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #1e1e1e;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      
+      h2 {
+        margin: 0 0 16px 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+    
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: #2d2d2d;
+      border-radius: 24px;
+      padding: 0 16px;
+      height: 48px;
+      transition: box-shadow 0.3s ease;
+      
+      &:focus-within {
+        box-shadow: 0 0 0 2px #bb86fc;
+      }
+      
+      mat-icon {
+        color: #9e9e9e;
+        margin-right: 8px;
+      }
+      
+      .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        color: #e0e0e0;
+        font-size: 1rem;
+        outline: none;
+        
+        &::placeholder {
+          color: #9e9e9e;
+        }
+      }
+      
+      .clear-btn {
+        cursor: pointer;
+        
+        &:hover {
+          color: #bb86fc;
+        }
+      }
+    }
+  }
+  
+  // Loading spinner
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    
+    ::ng-deep .mat-progress-spinner circle {
+      stroke: #bb86fc;
+    }
+  }
+  
+  // Empty state
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    
+    mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 16px;
+      color: #9e9e9e;
+    }
+    
+    h3 {
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #e0e0e0;
+    }
+    
+    p {
+      color: #9e9e9e;
+      text-align: center;
+    }
+  }
+  
+  // Orders grid
+  .orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    
+    @media (max-width: 359px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  // Order card
+  .order-card {
+    background-color: #2d2d2d;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background-color: #212121;
+      
+      .order-status-badge {
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        &.completed {
+          background-color: rgba(105, 240, 174, 0.2);
+          color: #69f0ae;
+        }
+        
+        &.canceled {
+          background-color: rgba(255, 82, 82, 0.2);
+          color: #ff5252;
+        }
+      }
+      
+      .order-date {
+        color: #9e9e9e;
+        font-size: 0.875rem;
+      }
+    }
+    
+    .order-card-id {
+      padding: 16px 16px 8px;
+      display: flex;
+      align-items: baseline;
+      
+      .label {
+        color: #9e9e9e;
+        font-size: 0.875rem;
+        margin-right: 8px;
+      }
+      
+      .value {
+        font-weight: 500;
+        word-break: break-word;
+      }
+    }
+    
+    .order-card-employee,
+    .order-card-amount {
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      
+      mat-icon {
+        color: #bb86fc;
+        margin-right: 8px;
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+      }
+    }
+    
+    .order-card-amount {
+      font-weight: 500;
+    }
+    
+    .order-card-divider {
+      height: 1px;
+      background-color: #424242;
+      margin: 8px 16px;
+    }
+    
+    .order-card-items {
+      padding: 8px 16px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .items-count {
+        color: #9e9e9e;
+        font-size: 0.875rem;
+      }
+      
+      .view-details-btn {
+        color: #bb86fc;
+        font-weight: 500;
+        
+        mat-icon {
+          margin-left: 4px;
+          transition: transform 0.2s ease;
+        }
+      }
+    }
+    
+    // Expanded details section
+    .order-details {
+      background-color: #212121;
+      padding: 16px;
+      border-top: 1px solid #424242;
+      
+      h4 {
+        margin: 0 0 16px 0;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+      
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #424242;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        .item-details {
+          .item-id {
+            font-weight: 500;
+            margin-bottom: 4px;
+            word-break: break-word;
+          }
+          
+          .item-quantity {
+            color: #9e9e9e;
+            font-size: 0.875rem;
+          }
+        }
+        
+        .item-price {
+          font-weight: 500;
+          align-self: flex-start;
+        }
+      }
+      
+      .order-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 0 0;
+        margin-top: 8px;
+        border-top: 1px solid #424242;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+    }
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 600px) {
+    .orders-header {
+      padding: 12px;
+      
+      .header-content h2 {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+      }
+      
+      .search-bar {
+        height: 40px;
+      }
+    }
+    
+    .orders-grid {
+      padding: 12px;
+      gap: 12px;
+    }
+    
+    .order-card {
+      .order-card-header {
+        padding: 10px 12px;
+      }
+      
+      .order-card-id,
+      .order-card-employee,
+      .order-card-amount {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      
+      .order-card-divider {
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+      
+      .order-card-items {
+        padding: 8px 12px 12px;
+      }
+      
+      .order-details {
+        padding: 12px;
+      }
+    }
+  }

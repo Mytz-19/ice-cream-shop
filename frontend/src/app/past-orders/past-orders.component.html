@@ -1,0 +1,78 @@
+<div class="past-orders-container">
+    <!-- Header with search -->
+    <div class="orders-header">
+      <div class="header-content">
+        <h2>Past Orders</h2>
+        <div class="search-bar">
+          <mat-icon>search</mat-icon>
+          <input type="text" [(ngModel)]="searchQuery" (keyup)="filterOrders()" 
+            placeholder="Search orders..." class="search-input">
+          <mat-icon *ngIf="searchQuery" (click)="clearSearch()" class="clear-btn">close</mat-icon>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Loading spinner -->
+    <div class="loading-container" *ngIf="isLoading">
+      <app-spinner [loading]="isLoading"></app-spinner>
+    </div>
+  
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="!isLoading && filteredOrders.length === 0">
+      <mat-icon>receipt_long</mat-icon>
+      <h3>No Orders Found</h3>
+      <p>Try adjusting your search or create a new order</p>
+    </div>
+  
+    <!-- Orders list card view -->
+    <div class="orders-grid" *ngIf="!isLoading && filteredOrders.length > 0">
+      <div class="order-card" *ngFor="let order of filteredOrders">
+        <div class="order-card-header">
+          <div class="order-status-badge completed">Completed</div>
+          <div class="order-date">{{order.date | date:'MMM d, y'}}</div>
+        </div>
+        
+        <div class="order-card-id">
+          <span class="label">Order ID:</span>
+          <span class="value">{{order.id}}</span>
+        </div>
+        
+        <div class="order-card-employee">
+          <mat-icon>person</mat-icon>
+          <span>{{order.employee_name}}</span>
+        </div>
+        
+        <div class="order-card-amount">
+          <mat-icon>payments</mat-icon>
+          <span>Rs. {{order.total_cost}}</span>
+        </div>
+        
+        <div class="order-card-divider"></div>
+        
+        <div class="order-card-items">
+          <div class="items-count">{{order.receipt?.length}} items</div>
+          <button mat-button class="view-details-btn" (click)="toggleOrderDetails(order)">
+            {{order.showDetails ? 'Hide Details' : 'View Details'}}
+            <mat-icon>{{order.showDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+          </button>
+        </div>
+        
+        <!-- Expandable details section -->
+        <div class="order-details" *ngIf="order.showDetails">
+          <h4>Order Items</h4>
+          <div class="order-item" *ngFor="let item of order.receipt">
+            <div class="item-details">
+              <div class="item-id">{{item.product_name}}</div>
+              <div class="item-quantity">Qty: {{item.quantity}}</div>
+            </div>
+            <div class="item-price">Rs. {{item.cost}}</div>
+          </div>
+          
+          <div class="order-total">
+            <span>Total</span>
+            <span>Rs. {{order.total_cost}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
